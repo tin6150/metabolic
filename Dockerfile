@@ -22,43 +22,67 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "begining docker build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     date | TZ=PST8PDT tee -a       _TOP_DIR_OF_CONTAINER_ ;\
     echo "installing packages via apt"       | tee -a _TOP_DIR_OF_CONTAINER_  ;\
-    apt update ;\
+    apt-get update ;\
     # ubuntu:
-    apt-get --quiet install perl-base r-base hmmer prodigal bamtools python git file wget bash tcsh zsh less vim bc tmux screen xterm ;\
+    apt-get --quiet install perl-base r-base hmmer prodigal bamtools python git file wget gzip bash tcsh zsh less vim bc tmux screen xterm ;\
     echo '========================================================'   ;\
     echo "installing packages wget/sh"  | tee -a _TOP_DIR_OF_CONTAINER_   ;\
     date | TZ=PST8PDT tee -a      _TOP_DIR_OF_CONTAINER_              ;\
     echo '========================================================'   ;\
     mkdir -p Downloads &&  cd Downloads ;\
     wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda3.sh  ;\
-    bash miniconda3.sh -b  ;\
-    wget --quiet https://github.com/biod/sambamba/releases/download/v0.7.1/sambamba-0.7.1-linux-static.gz ;\
-    tar xf sambamba-0.7.1-linux-static.gz  ;\
-    cd .. ;\
-    echo '==================================================================' ;\
-    echo "installing packages cran packages" | tee -a _TOP_DIR_OF_CONTAINER_  ;\
-    date | TZ=PST8PDT tee -a      _TOP_DIR_OF_CONTAINER_                      ;\
-    echo '==================================================================' ;\
-    Rscript --noverbose -e 'install.packages("diagram",    repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --noverbose -e 'install.packages("forcats",    repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --noverbose -e 'install.packages("digest",     repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --noverbose -e 'install.packages("htmltools",  repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --noverbose -e 'install.packages("rmarkdown",  repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --noverbose -e 'install.packages("reprex",     repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --noverbose -e 'install.packages("tidyverse",  repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --noverbose -e 'install.packages("stringi",    repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --noverbose -e 'install.packages("ggthemes",   repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --noverbose -e 'install.packages("ggalluvial", repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --noverbose -e 'install.packages("reshape2",   repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --noverbose -e 'install.packages("ggraph",     repos = "http://cran.us.r-project.org")'    ;\
+    bash miniconda3.sh -b -p /opt/conda ;\
+		echo 'export PATH="${PATH}:/opt/conda/bin"'                       >> /etc/bashrc    ;\
+    echo 'export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/conda/lib"' >> /etc/bashrc    ;\
 
+    wget --quiet https://github.com/biod/sambamba/releases/download/v0.7.1/sambamba-0.7.1-linux-static.gz ;\
+    gunzip sambamba-0.7.1-linux-static.gz  ;\
+    cd .. ;\
     echo '==================================================================' ;\
     echo '==================================================================' ;\
     echo "installing packages via conda"  | tee -a _TOP_DIR_OF_CONTAINER_     ;\
     date | TZ=PST8PDT tee -a                       _TOP_DIR_OF_CONTAINER_     ;\
     echo '==================================================================' ;\
     echo '==================================================================' ;\
-    conda install bwa coverm ;\
+    /opt/conda/bin/conda install bwa coverm ;\
+
+    echo '==================================================================' ;\
+    echo "installing perl/cpan packages"  | tee -a _TOP_DIR_OF_CONTAINER_     ;\
+    date | TZ=PST8PDT tee -a                       _TOP_DIR_OF_CONTAINER_     ;\
+    echo '==================================================================' ;\
+		PERL_MM_USE_DEFAULT=1 cpan -i Data::Dumper                                ;\
+		PERL_MM_USE_DEFAULT=1 perl -MCPAN -e cpann "install POSIX qw(strftime)"   ;\
+		PERL_MM_USE_DEFAULT=1 cpan -i Excel::Writer::XLSX ;\    
+		PERL_MM_USE_DEFAULT=1 cpan -i Getopt::Long ;\    
+		PERL_MM_USE_DEFAULT=1 cpan -i Statistics::Descriptive ;\
+		PERL_MM_USE_DEFAULT=1 perl -MCPAN -e cpann "Array::Split qw(split_by split_into)" ;\
+		PERL_MM_USE_DEFAULT=1 cpan -i Bio::SeqIO ;\
+		PERL_MM_USE_DEFAULT=1 cpan -i Bio::Perl  ;\
+		PERL_MM_USE_DEFAULT=1 cpan -i Bio::Tools::CodonTable ;\
+		PERL_MM_USE_DEFAULT=1 cpan -i Carp ;\
+
+
+    echo '==================================================================' ;\
+    echo '==================================================================' ;\
+    echo '==================================================================' ;\
+    echo "installing packages cran packages" | tee -a _TOP_DIR_OF_CONTAINER_  ;\
+    date | TZ=PST8PDT tee -a      _TOP_DIR_OF_CONTAINER_                      ;\
+    echo '==================================================================' ;\
+    echo '==================================================================' ;\
+    echo '==================================================================' ;\
+    Rscript --quiet -e 'install.packages("diagram",    repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --quiet -e 'install.packages("forcats",    repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --quiet -e 'install.packages("digest",     repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --quiet -e 'install.packages("htmltools",  repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --quiet -e 'install.packages("rmarkdown",  repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --quiet -e 'install.packages("reprex",     repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --quiet -e 'install.packages("tidyverse",  repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --quiet -e 'install.packages("stringi",    repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --quiet -e 'install.packages("ggthemes",   repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --quiet -e 'install.packages("ggalluvial", repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --quiet -e 'install.packages("reshape2",   repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --quiet -e 'install.packages("ggraph",     repos = "http://cran.us.r-project.org")'    ;\
+
 
     echo '========================================================'   ;\
     echo '========================================================'   ;\
