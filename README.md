@@ -1,2 +1,0 @@
-# metaboliic
-containerizing AnantharamanLab/METABOLIC
