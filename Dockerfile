@@ -39,18 +39,18 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "installing packages cran packages" | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     date | TZ=PST8PDT tee -a      _TOP_DIR_OF_CONTAINER_                      ;\
     echo '==================================================================' ;\
-    Rscript --vanilla -e 'install.packages("diagram",    repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --vanilla -e 'install.packages("forcats",    repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --vanilla -e 'install.packages("digest",     repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --vanilla -e 'install.packages("htmltools",  repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --vanilla -e 'install.packages("rmarkdown",  repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --vanilla -e 'install.packages("reprex",     repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --vanilla -e 'install.packages("tidyverse",  repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --vanilla -e 'install.packages("stringi",    repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --vanilla -e 'install.packages("ggthemes",   repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --vanilla -e 'install.packages("ggalluvial", repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --vanilla -e 'install.packages("reshape2",   repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --vanilla -e 'install.packages("ggraph",     repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --noverbose -e 'install.packages("diagram",    repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --noverbose -e 'install.packages("forcats",    repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --noverbose -e 'install.packages("digest",     repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --noverbose -e 'install.packages("htmltools",  repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --noverbose -e 'install.packages("rmarkdown",  repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --noverbose -e 'install.packages("reprex",     repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --noverbose -e 'install.packages("tidyverse",  repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --noverbose -e 'install.packages("stringi",    repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --noverbose -e 'install.packages("ggthemes",   repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --noverbose -e 'install.packages("ggalluvial", repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --noverbose -e 'install.packages("reshape2",   repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --noverbose -e 'install.packages("ggraph",     repos = "http://cran.us.r-project.org")'    ;\
 
     echo '==================================================================' ;\
     echo '==================================================================' ;\
