@@ -19,50 +19,52 @@ MAINTAINER Tin@LBL.gov
 # conda installer maybe tricky, base off that instead.  Debian base.
 
 RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
-    echo "begining docker build process at " | tee -a _TOP_DIR_OF_CONTAINER_ ;\
+    echo "begining docker build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     date | TZ=PST8PDT tee -a       _TOP_DIR_OF_CONTAINER_ ;\
-    echo "installing packages via apt"  >> _TOP_DIR_OF_CONTAINER_   \
+    echo "installing packages via apt"       | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     apt update ;\
-    # debian (miniconda3, not using)
-    #apt install perl-base r-base hmmer prodigal bamtools python git bash tcsh zsh less vim tmux screen bc xterm ;\   # Debian
     # ubuntu:
-    apt install perl-base r-base hmmer prodigal bamtools python git bash tcsh zsh less vim tmux screen bc xterm ;\
+    apt-get --quiet install perl-base r-base hmmer prodigal bamtools python git file wget bash tcsh zsh less vim bc tmux screen xterm ;\
     echo '========================================================'   ;\
-    echo "installing packages wget/sh"    >> _TOP_DIR_OF_CONTAINER_   ;\
+    echo "installing packages wget/sh"  | tee -a _TOP_DIR_OF_CONTAINER_   ;\
     date | TZ=PST8PDT tee -a      _TOP_DIR_OF_CONTAINER_              ;\
     echo '========================================================'   ;\
     mkdir -p Downloads &&  cd Downloads ;\
     wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda3.sh  ;\
-    bash miniconda3.sh ;\
+    bash miniconda3.sh -b  ;\
     wget --quiet https://github.com/biod/sambamba/releases/download/v0.7.1/sambamba-0.7.1-linux-static.gz ;\
-    tar xfz sambamba-0.7.1-linux-static.gz  ;\
+    tar xf sambamba-0.7.1-linux-static.gz  ;\
     cd .. ;\
-    echo '========================================================'      ;\
-    echo "installing packages cran packages" >> _TOP_DIR_OF_CONTAINER_   ;\
-    date | TZ=PST8PDT tee -a      _TOP_DIR_OF_CONTAINER_                 ;\
-    echo '========================================================'      ;\
-    Rscript -e 'install.packages("diagram", repos = "http://cran.us.r-project.org")'    ;\
-    Rscript -e 'install.packages("forcats", repos = "http://cran.us.r-project.org")'    ;\
-    Rscript -e 'install.packages("digest", repos = "http://cran.us.r-project.org")'    ;\
-    Rscript -e 'install.packages("htmltools", repos = "http://cran.us.r-project.org")'    ;\
-    Rscript -e 'install.packages("rmarkdown", repos = "http://cran.us.r-project.org")'    ;\
-    Rscript -e 'install.packages("reprex", repos = "http://cran.us.r-project.org")'    ;\
-    Rscript -e 'install.packages("tidyverse", repos = "http://cran.us.r-project.org")'    ;\
-    Rscript -e 'install.packages("stringi", repos = "http://cran.us.r-project.org")'    ;\
-    Rscript -e 'install.packages("ggthemes", repos = "http://cran.us.r-project.org")'    ;\
-    Rscript -e 'install.packages("ggalluvial", repos = "http://cran.us.r-project.org")'    ;\
-    Rscript -e 'install.packages("reshape2", repos = "http://cran.us.r-project.org")'    ;\
-    Rscript -e 'install.packages("ggraph", repos = "http://cran.us.r-project.org")'    ;\
+    echo '==================================================================' ;\
+    echo "installing packages cran packages" | tee -a _TOP_DIR_OF_CONTAINER_  ;\
+    date | TZ=PST8PDT tee -a      _TOP_DIR_OF_CONTAINER_                      ;\
+    echo '==================================================================' ;\
+    Rscript --vanilla -e 'install.packages("diagram",    repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --vanilla -e 'install.packages("forcats",    repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --vanilla -e 'install.packages("digest",     repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --vanilla -e 'install.packages("htmltools",  repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --vanilla -e 'install.packages("rmarkdown",  repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --vanilla -e 'install.packages("reprex",     repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --vanilla -e 'install.packages("tidyverse",  repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --vanilla -e 'install.packages("stringi",    repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --vanilla -e 'install.packages("ggthemes",   repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --vanilla -e 'install.packages("ggalluvial", repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --vanilla -e 'install.packages("reshape2",   repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --vanilla -e 'install.packages("ggraph",     repos = "http://cran.us.r-project.org")'    ;\
 
-    echo '========================================================'   ;\
-    echo "installing packages via conda"  >> _TOP_DIR_OF_CONTAINER_   ;\
-    date | TZ=PST8PDT tee -a      _TOP_DIR_OF_CONTAINER_              ;\
-    echo '========================================================'   ;\
+    echo '==================================================================' ;\
+    echo '==================================================================' ;\
+    echo "installing packages via conda"  | tee -a _TOP_DIR_OF_CONTAINER_     ;\
+    date | TZ=PST8PDT tee -a                       _TOP_DIR_OF_CONTAINER_     ;\
+    echo '==================================================================' ;\
+    echo '==================================================================' ;\
     conda install bwa coverm ;\
 
     echo '========================================================'   ;\
-    echo "compiling packages"  >> _TOP_DIR_OF_CONTAINER_              ;\
-    date | TZ=PST8PDT tee -a      _TOP_DIR_OF_CONTAINER_              ;\
+    echo '========================================================'   ;\
+    echo "compiling packages"  | tee -a _TOP_DIR_OF_CONTAINER_        ;\
+    date | TZ=PST8PDT tee -a            _TOP_DIR_OF_CONTAINER_        ;\
+    echo '========================================================'   ;\
     echo '========================================================'   ;\
 
 
