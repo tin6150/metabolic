@@ -12,6 +12,7 @@ MAINTAINER Tin (at) LBL.gov
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TZ=PST8PDT
 ARG PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda/bin
+ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda/bin
 
 
 RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
@@ -58,10 +59,10 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     cd METABOLIC ;\
     git log > metabolics.git.log ;\
 
-    make 2>&1 | tee make.log.rst ;\
+		bash -x ./run_to_setup.sh | tee run_to_setup.LOG ;\
     echo $? > _METABOLIC_BUILD_END_ ;\
 
-    echo 'last line of RUN block in Dockerbuild without continuation :)'
+    echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)'
 
 
 RUN     cd / \

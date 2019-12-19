@@ -49,6 +49,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     #perldoc -t perllocal    ;\
     cpan -a > cpan.list.out ;\
     # last count = 1565, but no match for Bio
+    # with -f count = 1900+, many match Bio
 
     echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)'
 
