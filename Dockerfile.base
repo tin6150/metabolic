@@ -13,6 +13,9 @@ MAINTAINER Tin (at) LBL.gov
 
 #RUN  echo "Building ... this isn't likely working yet" 
 
+ARG DEBIAN_FRONTEND=noninteractive
+ARG TZ=PST8PDT
+
 RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "begining docker build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     export TZ=PST8PDT                                     ;\
@@ -20,6 +23,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "installing packages via apt"       | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     apt-get update ;\
     apt-get -y --force-yes --quiet install perl-base r-base hmmer prodigal bamtools python git file wget gzip bash tcsh zsh less vim bc tmux screen xterm ;\
+    apt-get -y --force-yes --quiet install libxml2 ;\
 		dpkg --list > dpkg--list.output ;\
 
     echo '==================================================================' ;\
@@ -38,19 +42,19 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     Rscript --quiet -e 'install.packages("ggalluvial", repos = "http://cran.us.r-project.org")'    ;\
     Rscript --quiet -e 'install.packages("reshape2",   repos = "http://cran.us.r-project.org")'    ;\
     Rscript --quiet -e 'install.packages("ggraph",     repos = "http://cran.us.r-project.org")'    ;\
+    echo $? > Rscript.exit.code   ;\
 
     echo 'last line of RUN block in Dockerbuild without continuation :)'
 
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Dockerfile.base 2019.1218 1721"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.base 2019.1218 2129"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 #- ENV TZ America/Los_Angeles  
 ENV TZ America/Los_Angeles 
 # ENV TZ likely changed/overwritten by container's /etc/csh.cshrc
-#ENV DOCKERFILE Dockerfile[.cmaq]
 # does overwrite parent def of ENV DOCKERFILE
 ENV TEST_DOCKER_ENV     this_env_will_be_avail_when_container_is_run_or_exec
 ENV TEST_DOCKER_ENV_2   Can_use_ADD_to_make_ENV_avail_in_build_process

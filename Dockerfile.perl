@@ -11,32 +11,52 @@ MAINTAINER Tin (at) LBL.gov
 
 #RUN  echo "Building ... this isn't likely working yet" 
 
+ARG TZ="America/Denver"
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "begining docker build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     date | TZ=PST8PDT tee -a       _TOP_DIR_OF_CONTAINER_ ;\
 
     echo '==================================================================' ;\
-    echo "installing perl/cpan packages"  | tee -a _TOP_DIR_OF_CONTAINER_     ;\
-    date | TZ=PST8PDT tee -a                       _TOP_DIR_OF_CONTAINER_     ;\
+    echo "installing perl/cpan packages"  | tee -a _TOP_DIR_OF_CONTAINER_     ;\  
+    date | TZ=PST8PDT tee -a                       _TOP_DIR_OF_CONTAINER_     ;\  
     echo '==================================================================' ;\
-		PERL_MM_USE_DEFAULT=1 cpan -i Data::Dumper                                ;\
-		PERL_MM_USE_DEFAULT=1 perl -MCPAN -e cpann "install POSIX qw(strftime)"   ;\
-		PERL_MM_USE_DEFAULT=1 cpan -i Excel::Writer::XLSX ;\    
-		PERL_MM_USE_DEFAULT=1 cpan -i Getopt::Long ;\    
-		PERL_MM_USE_DEFAULT=1 cpan -i Statistics::Descriptive ;\
-		PERL_MM_USE_DEFAULT=1 perl -MCPAN -e cpann "Array::Split qw(split_by split_into)" ;\
-		PERL_MM_USE_DEFAULT=1 cpan -i Bio::SeqIO ;\
-		PERL_MM_USE_DEFAULT=1 cpan -i Bio::Perl  ;\
-		PERL_MM_USE_DEFAULT=1 cpan -i Bio::Tools::CodonTable ;\
-		PERL_MM_USE_DEFAULT=1 cpan -i Carp ;\
+    export PERL_MM_USE_DEFAULT=1                                              ;\
+    # cpan -f is force, -i is install.  Bio::Perl is a beast and won't install :(
+    PERL_MM_USE_DEFAULT=1 cpan -fi Data::Dumper                               ;\
+    PERL_MM_USE_DEFAULT=1 perl -MCPAN -e cpann "install POSIX qw(strftime)"   ;\  
+    PERL_MM_USE_DEFAULT=1 cpan -fi Excel::Writer::XLSX ;\    
+    PERL_MM_USE_DEFAULT=1 cpan -fi Getopt::Long ;\    
+    PERL_MM_USE_DEFAULT=1 cpan -fi Statistics::Descriptive ;\
+    PERL_MM_USE_DEFAULT=1 perl -MCPAN -e cpann "Array::Split qw(split_by split_into)" ;\
+    PERL_MM_USE_DEFAULT=1 cpan -fi Bio::SeqIO ;\
+    echo '==================================================================' ;\
+    echo '==================================================================' ;\
+    echo "installing Bio::Perl packages"  | tee -a _TOP_DIR_OF_CONTAINER_     ;\  
+    echo '==================================================================' ;\
+    PERL_MM_USE_DEFAULT=1 cpan -fi Bio::Perl  ;\  
+    echo $? > bioperl.exit.code ;\
+    echo '==================================================================' ;\
+    echo "done install Bio::Perl packages"  | tee -a _TOP_DIR_OF_CONTAINER_     ;\  
+    echo '==================================================================' ;\
+    echo '==================================================================' ;\
+    PERL_MM_USE_DEFAULT=1 cpan -fi Bio::Tools::CodonTable ;\
+    PERL_MM_USE_DEFAULT=1 cpan -fi Carp ;\
+    PERL_MM_USE_DEFAULT=1 cpan -fi Text::Levenshtein::XS Text::Levenshtein::Damerau::XS Text::Levenshtein Text::Levenshtein::Damerau::PP ;\
+    echo $? > cpan.exit.code ;\
+    #PERL_MM_USE_DEFAULT=1 cpan -i perldoc ;\
+    #perldoc -t perllocal    ;\
+    cpan -a > cpan.list.out ;\
+    # last count = 1565, but no match for Bio
 
-    echo 'last line of RUN block in Dockerbuild without continuation :)'
+    echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)'
 
 
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Dockerfile.perl 2019.1218 1751"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.perl 2019.1218 2245"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 #- ENV TZ America/Los_Angeles  
