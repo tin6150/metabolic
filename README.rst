@@ -38,7 +38,11 @@ BUILD
 
 ::
 
-        docker build -t tin6150/metabolic -f Dockerfile           .  | tee Dockerfile.log 
+        docker build -t tin6150/base4metabolic  -f Dockerfile.base       .  | tee Dockerfile.base.log 
+        docker build -t tin6150/perl4metabolic  -f Dockerfile.perl       .  | tee Dockerfile.perl.log 
+        docker build -t tin6150/metabolic       -f Dockerfile.metabolic  .  | tee Dockerfile.log 
+        -or-
+        docker build -t tin6150/metabolic0      -f Dockerfile            .  | tee Dockerfile.monolithic.log 
 
 
 
