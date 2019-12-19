@@ -1,6 +1,11 @@
 # Main Dockerfile for creating Metabolic in a container
 # see https://github.com/AnantharamanLab/METABOLIC
 
+#####################
+#####################
+#### SPLIT ##########  and somewhat obsolete now
+#####################
+#####################
 
 # going to split it in multiple pieces...
 # cpan has long install list

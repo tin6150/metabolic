@@ -1,12 +1,9 @@
 # Main Dockerfile for creating Metabolic in a container
-# see https://github.com/AnantharamanLab/METABOLIC
+#
+# Metabolic source: https://github.com/AnantharamanLab/METABOLIC
+# Dockerfile github: https://github.com/tin6150/metabolic/blob/master/Dockerfile.base
+#
 
-
-# going to split it in multiple pieces...
-# cpan has long install list
-# rscript has its own set of fairly long install...
-# (model after cmaq container)
- 
 
 #FROM cgrlab/sambamba
 #FROM conda/miniconda3  # Debian, not ubuntu, can't find R!
@@ -16,20 +13,14 @@ MAINTAINER Tin (at) LBL.gov
 
 #RUN  echo "Building ... this isn't likely working yet" 
 
-
-# seeding the container with sambamba 
-# which cgrlab has it as ubuntu:14.04
-# may want to rebuild from scratch...
-# ubuntu has many more of the dependencies as .deb already
-
-# conda installer maybe tricky, base off that instead.  Debian base.
-
 RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "begining docker build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
+    export TZ=PST8PDT                                     ;\
     date | TZ=PST8PDT tee -a       _TOP_DIR_OF_CONTAINER_ ;\
     echo "installing packages via apt"       | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     apt-get update ;\
-    apt-get --quiet install perl-base r-base hmmer prodigal bamtools python git file wget gzip bash tcsh zsh less vim bc tmux screen xterm ;\
+    apt-get -y --force-yes --quiet install perl-base r-base hmmer prodigal bamtools python git file wget gzip bash tcsh zsh less vim bc tmux screen xterm ;\
+		dpkg --list > dpkg--list.output ;\
 
     echo '==================================================================' ;\
     echo "installing packages cran packages" | tee -a _TOP_DIR_OF_CONTAINER_  ;\
@@ -53,7 +44,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Dockerfile 2019.1218 1416"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.base 2019.1218 1721"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 #- ENV TZ America/Los_Angeles  
@@ -64,6 +55,7 @@ ENV TZ America/Los_Angeles
 ENV TEST_DOCKER_ENV     this_env_will_be_avail_when_container_is_run_or_exec
 ENV TEST_DOCKER_ENV_2   Can_use_ADD_to_make_ENV_avail_in_build_process
 ENV TEST_DOCKER_ENV_REF https://vsupalov.com/docker-arg-env-variable-guide/#setting-env-values
+ENV DOCKER_MANTABOLIC_BASE  "Dockerfile.base mostly R/CRAN"
 # but how to append, eg add to PATH?
 
 #ENTRYPOINT ["cat", "/Downloads/netcdf-fotran-4.4.5/_END_BUILD_NETCDF_"]

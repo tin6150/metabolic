@@ -32,6 +32,10 @@ RUN
         docker run  -it -v $HOME:/home/tin tin6150/metabolic
         docker exec -it uranus_hertz bash                 # additional terminal into existing running container
 
+		testing use:
+        docker run  -it -v $HOME:/home/tin tin6150/base4metabolic
+        docker run  -it -v $HOME:/home/tin tin6150/perl4metabolic
+
 
 BUILD
 =====
@@ -43,6 +47,9 @@ BUILD
         docker build -t tin6150/metabolic       -f Dockerfile.metabolic  .  | tee Dockerfile.log 
         -or-
         docker build -t tin6150/metabolic0      -f Dockerfile            .  | tee Dockerfile.monolithic.log 
+        -or-
+        # alternate starting point, may become independent container if can get docker hub to add new repo...
+        docker build -t tin6150/bioperl         -f Dockerfile.bioperl    .  | tee Dockerfile.bioperl.log 
 
 
 
