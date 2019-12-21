@@ -13,17 +13,18 @@ From: tin6150/metabolic
 	mkdir -p /global/scratch/tin
 	mkdir -p /global/home/users/tin
 	mkdir -p /home/tin
+	mkdir -p /home/tmp
+	mkdir -p /Downloads
 	chown    43143 /global/scratch/tin
 	chown    43143 /global/home/users/tin
-	chown -R 43143 /home/tin
-	chown -R 43143 /home/username  # some oddities resulting from the cmaq make process ran in docker
+	chown -R 43143 /home
+	#chown -R 43143 /home/tin
 	chown -R 43143 /opt
 	chown -R 43143 /Downloads
+	chmod 1777 /home/tmp
 
 %runscript
-    #pgcc $@
-    #pgf95 $@
-    #/bin/tcsh
+    #TZ=PST8PDT /bin/tcsh
     #/bin/bash -i 
     #xx source /etc/bashrc && /Downloads/CMAQ/CMAQ-4.5-ADJ-LAJB_tutorial/code/CMAQ-4.5-ADJ-LAJB/./built_gcc_gfortran_serial_SAPRC99ROS/bin/CCTM/cctm
 	LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/opt/conda/lib PATH=${PATH}:/opt/conda/bin /bin/bash -i
@@ -48,5 +49,6 @@ From: tin6150/metabolic
 # eg run cmd on lrc, singularity 2.6-dist (maybe locally compiled)
 #      singularity shell -w -B /global/scratch/tin ./metabolic_b1219a.img
 #
+# dirac1 has singularity singularity-3.2.1-1.el7.x86_64 
 
 # vim: nosmartindent tabstop=4 noexpandtab shiftwidth=4

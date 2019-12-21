@@ -26,6 +26,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "installing packages via apt"       | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     echo '==================================================================' ;\
     apt-get update ;\
+    apt-get -y --force-yes --quiet install apt-utils ;\
     apt-get -y --force-yes --quiet install perl-base ;\
 		apt-get -y --force-yes --quiet install r-base ;\
 		apt-get -y --force-yes --quiet install hmmer ;\
