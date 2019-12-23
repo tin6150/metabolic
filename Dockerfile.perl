@@ -17,6 +17,9 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "begining docker build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     date | TZ=PST8PDT tee -a       _TOP_DIR_OF_CONTAINER_ ;\
+    test -d /opt/gitrepo  || mkdir -p /opt/gitrepo        ;\
+	  test -d /opt/gitrepo/metabolic  || git clone https://github.com/tin6150/metabolic.git  ;\
+	  cd /opt/gitrepo/metabolic &&  git pull && cd -   ;\
 
     echo '==================================================================' ;\
     echo "installing perl/cpan packages"  | tee -a _TOP_DIR_OF_CONTAINER_     ;\  

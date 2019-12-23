@@ -20,15 +20,16 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "begining docker build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     export TZ=PST8PDT                                     ;\
     date | TZ=PST8PDT tee -a       _TOP_DIR_OF_CONTAINER_ ;\
-    [[ -d /opt/gitrepo ]] || mkdir -p /opt/gitrepo        ;\
-    [[ -d /opt/gitrepo/metabolic ]] || git clone https://github.com/tin6150/metabolic.git  ;\
+    test -d /opt/gitrepo  || mkdir -p /opt/gitrepo        ;\
+    test -d /opt/gitrepo/metabolic  || git clone https://github.com/tin6150/metabolic.git  ;\
     cd /opt/gitrepo/metabolic &&  git pull && cd -                                         ;\
     echo "installing packages via apt"       | tee -a _TOP_DIR_OF_CONTAINER_               ;\
     apt-get update ;\
     apt-get -y --force-yes --quiet install perl-base r-base hmmer prodigal bamtools python git file wget gzip bash tcsh zsh less vim bc tmux screen xterm xpdf apt-utils ;\
     apt-get -y --force-yes --quiet install libxml2 libtinfo5 libtinfo6 diamond-aligner     ;\
-		dpkg --list > dpkg--list.output ;\
-		# libtinfo5,6 added to see if rid of:
+    cd /usr/bin && ln -s diamond-aligner diamond && cd - ;\
+    dpkg --list > dpkg--list.output ;\
+    # libtinfo5,6 added to see if rid of:
     # /usr/lib/R/bin/exec/R: /opt/conda/lib/libtinfo.so.6: no version information available (required by /lib/x86_64-linux-gnu/libreadline.so.8)
 
     echo '==================================================================' ;\
@@ -56,6 +57,8 @@ RUN     cd / \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
   && echo  "Dockerfile.base 2019.1222.2049"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Dockerfile.base 2019.1223.0823 (optional git pull metabolic)"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.base 2019.1223.1052 (sym link for diamond)"         >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.base 2019.1223.1104 (fix sh/test)"                  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 #- ENV TZ America/Los_Angeles  

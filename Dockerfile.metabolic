@@ -18,8 +18,8 @@ ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda
 RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "begining docker build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     date | TZ=PST8PDT tee -a       _TOP_DIR_OF_CONTAINER_ ;\
-    [[ -d /opt/gitrepo ]] || mkdir -p /opt/gitrepo        ;\
-    [[ -d /opt/gitrepo/metabolic ]] || git clone https://github.com/tin6150/metabolic.git  ;\
+    test -d /opt/gitrepo  || mkdir -p /opt/gitrepo        ;\
+    test -d /opt/gitrepo/metabolic  || git clone https://github.com/tin6150/metabolic.git  ;\
     cd /opt/gitrepo/metabolic &&  git pull && cd -                                         ;\
 
     echo '========================================================'   ;\
@@ -29,7 +29,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     mkdir -p Downloads &&  cd Downloads ;\
     wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda3.sh  ;\
     bash miniconda3.sh -b -p /opt/conda ;\
-		echo 'export PATH="${PATH}:/opt/conda/bin"'                       >> /etc/bashrc    ;\
+    echo 'export PATH="${PATH}:/opt/conda/bin"'                       >> /etc/bashrc    ;\
     echo 'export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/conda/lib"' >> /etc/bashrc    ;\
     cd .. ;\
 
@@ -37,7 +37,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     mkdir -p /opt/sambamba &&  cd /opt/sambamba ;\
     wget --quiet https://github.com/biod/sambamba/releases/download/v0.7.1/sambamba-0.7.1-linux-static.gz ;\
     gunzip sambamba-0.7.1-linux-static.gz  ;\
-		echo 'export PATH="${PATH}:/opt/sambamba/bin"'                       >> /etc/bashrc    ;\
+    echo 'export PATH="${PATH}:/opt/sambamba/bin"'                       >> /etc/bashrc    ;\
     echo 'export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/sambamba/lib"' >> /etc/bashrc    ;\
     cd ../.. ;\
 
@@ -51,7 +51,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     /opt/conda/bin/conda config --add channels bioconda ;\
     /opt/conda/bin/conda config --add channels conda-forge ;\
     /opt/conda/bin/conda install bwa coverm sambamba ;\
-		# bwa was really just example from bioconda, may not be needed
+    # bwa was really just example from bioconda, may not be needed
     echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)' 
 
 
@@ -80,6 +80,7 @@ RUN echo '========================================================'   ;\
 
 # below can be removed once Dockerfile.base has executed a new build.
 RUN     apt-get -y --force-yes --quiet install  xpdf   libxml2 libtinfo5 libtinfo6  diamond-aligner ;\
+        cd /usr/bin && ln -s diamond-aligner diamond && cd - ;\ 
         PERL_MM_USE_DEFAULT=1 cpan -fi Array/Split.pm  ;\
         PERL_MM_USE_DEFAULT=1 cpan -fi Data/OptList.pm  ;\
         PERL_MM_USE_DEFAULT=1 cpan -fi Parallel/ForkManager.pm  ;\
@@ -90,6 +91,8 @@ RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
   && echo  "Dockerfile 2019.1222.2222"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile 2019.1223.1053 (tmp sym link for diamond)"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile 2019.1223.1104 (fix sh/test)"               >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 #- ENV TZ America/Los_Angeles  
