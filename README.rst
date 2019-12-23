@@ -6,9 +6,10 @@ This project
 is the containerization of AnantharamanLab/METABOLIC
 ( https://github.com/AnantharamanLab/METABOLIC ).
 
-Running Metabolic
-=================
+Starting the Metabolic container
+================================
 
+::
 	singularity pull --name metabolic.sif shub://tin6150/metabolic
 	./metabolic.sif
 	-or-
@@ -26,18 +27,34 @@ The metabolic software is installed under /opt/METABOLIC
 REMEMBER: content stored INSIDE the container is ephemeral and lost when container is restarted.  Save your data to a mounted volume shared with the host, eg $HOME
 
 
-?? where/what is /slowdata ??
+Example Run:  METABOLIC-G.pl
+============================
+
+::
+
+	cd $HOME    # if using lawrencium, please use luster scratch dir instead.
+	tar xfz /opt/METABOLIC/5_genomes_test.tgz
+	perl /opt/METABOLIC/METABOLIC-G.pl -in-gn $HOME/5_genomes_test/Genome_files -t 34 -o $HOME/metabolic_out -m /opt/METABOLIC/
+
+	# options are:
+	# -in-gn [folder with all your genomes] 
+	# -t [number of threads] 
+	# -o [METABOLIC output folder] 
+	# -m your/path/to/put/METABOLIC-folder
+
 
 Info about the Metabolic container
 ==================================
 
-A docker container is build first 
-(split into 3 pieces, 
-1. Dockerfile.base: Debian Linux with R 3.6.2 and number of .deb packages to satisfy dependencies
-2. Dockerfile.perl: add BioPerl
+A docker container is build first, done as 3 parts:
+
+1. Dockerfile.base: Debian Linux with R 3.6.2 (and CRAN libs) and number of .deb packages to satisfy dependencies (Hmmer, etc)
+
+2. Dockerfile.perl: add BioPerl and other CPAN libraries
+
 3. Dockerfile.metabolic: add miniconda, sambamba, and METABOLIC.
    run_setup.sh has been run, software is installed under /opt/METABOLIC
-   5_genomes_test has been extracted under this directory as well.
+   5_genomes_test has been extracted under this directory as well, but dir by default is not writable.
 
 
 The docker container has also been converted into a Singularity container for use by end user without priviledged access.

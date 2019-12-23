@@ -8,6 +8,7 @@ From: tin6150/metabolic
 	touch "_ROOT_DIR_OF_CONTAINER_" ## also is "_CURRENT_DIR_CONTAINER_BUILD" 
 	date >> _ROOT_DIR_OF_CONTAINER_
 	echo "Singularity def 2019.1219.0725" >> _ROOT_DIR_OF_CONTAINER_
+	echo "Singularity def 2019.1222.2125 (timestamp update only)" >> _ROOT_DIR_OF_CONTAINER_
 
 	# docker run as root, but singularity may run as user, so adding these hacks here
 	mkdir -p /global/scratch/tin
