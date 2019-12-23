@@ -78,7 +78,7 @@ RUN     apt-get -y --force-yes --quiet install ;\
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Dockerfile 2019.1218 2241"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile 2019.1222.2020"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 #- ENV TZ America/Los_Angeles  
