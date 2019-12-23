@@ -1,44 +1,48 @@
-metaboliic
-----------
+Metabolic
+---------
 
-
-containerizing AnantharamanLab/METABOLIC
-see https://github.com/tin6150/metaboliic.git
-
-start with a docker base
-may conver to singularity to run in HPC...
-
-work in progress...
-
-
+This project 
+( https://github.com/tin6150/metabolic.git )
+is the containerization of AnantharamanLab/METABOLIC
+( https://github.com/AnantharamanLab/METABOLIC ).
 
 Running Metabolic
 =================
 
+	singularity pull --name metabolic.sif shub://tin6150/metabolic
+	./metabolic.sif
+	-or-
+	sudo docker run  -it -v $HOME:/home tin6150/metabolic
 
-TBD
+The above commands will drop you into a shell inside the container, 
+where the metabolic program and all its dependencies are installed.
+Host system need to have Singularity 3.2 installed.
 
-
-
-container building
-~~~~~~~~~~~~~~~~~~
-
-
-RUN
-===
-
-::
-
-        docker run  -it -v $HOME:/home/tin tin6150/metabolic
-        docker exec -it uranus_hertz bash                 # additional terminal into existing running container
-
-		testing intermediary container use:
-        docker run  -it -v $HOME:/home/tin tin6150/base4metabolic
-        docker run  -it -v $HOME:/home/tin tin6150/perl4metabolic
+The metabolic software is installed under /opt/METABOLIC
+5_genomes_test has been extracted under this directory as well.
+/usr/bin/xpdf could be used to view the generated PDF.
 
 
-BUILD
-=====
+REMEMBER: content stored INSIDE the container is ephemeral and lost when container is restarted.  Save your data to a mounted volume shared with the host, eg $HOME
+
+Info about the Metabolic container
+==================================
+
+A docker container is build first 
+(split into 3 pieces, 
+1. Dockerfile.base: Debian Linux with R 3.6.2 and number of .deb packages to satisfy dependencies
+2. Dockerfile.perl: add BioPerl
+3. Dockerfile.metabolic: add miniconda, sambamba, and METABOLIC.
+   run_setup.sh has been run, software is installed under /opt/METABOLIC
+   5_genomes_test has been extracted under this directory as well.
+
+
+The docker container has also been converted into a Singularity container for use by end user without priviledged access.
+
+
+
+Build Commands
+==============
 
 ::
 
@@ -56,5 +60,18 @@ BUILD
         # (see additional comments in the Singularity file)
 
 
+
+
+Debug runs/tests
+================
+
+::
+
+        docker run  -it -v $HOME:/home/tin tin6150/metabolic
+        docker exec -it uranus_hertz bash                 # additional terminal into existing running container
+
+        testing intermediary container use:
+        docker run  -it -v $HOME:/home/tin tin6150/base4metabolic
+        docker run  -it -v $HOME:/home/tin tin6150/perl4metabolic
 
 

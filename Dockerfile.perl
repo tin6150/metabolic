@@ -31,6 +31,11 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     PERL_MM_USE_DEFAULT=1 cpan -fi Statistics::Descriptive ;\
     PERL_MM_USE_DEFAULT=1 perl -MCPAN -e cpann "Array::Split qw(split_by split_into)" ;\
     PERL_MM_USE_DEFAULT=1 cpan -fi Bio::SeqIO ;\
+    # found these dependencies when tried to run METABOLIC-G.pl
+    PERL_MM_USE_DEFAULT=1 cpan -fi Array/Split.pm ;\
+    PERL_MM_USE_DEFAULT=1 cpan -fi Data/OptList.pm  ;\  
+    PERL_MM_USE_DEFAULT=1 cpan -fi Parallel/ForkManager.pm  ;\  
+
     echo '==================================================================' ;\
     echo '==================================================================' ;\
     echo "installing Bio::Perl packages"  | tee -a _TOP_DIR_OF_CONTAINER_     ;\  
