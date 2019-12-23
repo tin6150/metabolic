@@ -62,6 +62,8 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     bash -x ./run_to_setup.sh | tee run_to_setup.LOG ;\
     chmod a+x *pl
     echo $? > _METABOLIC_BUILD_END_ ;\
+    cd .. ;\
+    mkdir slowdata ;\
 
     echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)' 
 

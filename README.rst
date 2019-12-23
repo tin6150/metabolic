@@ -25,6 +25,9 @@ The metabolic software is installed under /opt/METABOLIC
 
 REMEMBER: content stored INSIDE the container is ephemeral and lost when container is restarted.  Save your data to a mounted volume shared with the host, eg $HOME
 
+
+?? where/what is /slowdata ??
+
 Info about the Metabolic container
 ==================================
 
