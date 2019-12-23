@@ -39,7 +39,7 @@ Example Run:  METABOLIC-G.pl
 
 	# options are:
 	# -in-gn [folder with all your genomes] 
-	# -t [number of threads] 
+	# -t [number of threads]   # even at 34 threads on 36-core machine, load average seems to remain below 8.
 	# -o [METABOLIC output folder] 
 	# -m your/path/to/put/METABOLIC-folder
 

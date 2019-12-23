@@ -68,7 +68,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)' 
 
 # below can be removed once Dockerfile.base has executed a new build.
-RUN     apt-get -y --force-yes --quiet install ;\
+RUN     apt-get -y --force-yes --quiet install  xpdf   libxml2 libtinfo5 libtinfo6  diamond-aligner ;\
         PERL_MM_USE_DEFAULT=1 cpan -fi Array/Split.pm  ;\
         PERL_MM_USE_DEFAULT=1 cpan -fi Data/OptList.pm  ;\
         PERL_MM_USE_DEFAULT=1 cpan -fi Parallel/ForkManager.pm  ;\

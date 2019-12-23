@@ -23,8 +23,10 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "installing packages via apt"       | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     apt-get update ;\
     apt-get -y --force-yes --quiet install perl-base r-base hmmer prodigal bamtools python git file wget gzip bash tcsh zsh less vim bc tmux screen xterm xpdf apt-utils ;\
-    apt-get -y --force-yes --quiet install libxml2 ;\
+    apt-get -y --force-yes --quiet install libxml2 libtinfo5 libtinfo6 diamond-aligner ;\
 		dpkg --list > dpkg--list.output ;\
+		# libtinfo5,6 added to see if rid of:
+    # /usr/lib/R/bin/exec/R: /opt/conda/lib/libtinfo.so.6: no version information available (required by /lib/x86_64-linux-gnu/libreadline.so.8)
 
     echo '==================================================================' ;\
     echo "installing packages cran packages" | tee -a _TOP_DIR_OF_CONTAINER_  ;\
