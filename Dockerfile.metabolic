@@ -30,12 +30,13 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo 'export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/conda/lib"' >> /etc/bashrc    ;\
     cd .. ;\
 
-    #mkdir -p /opt/sambamba &&  cd /opt/sambamba ;\
-    #wget --quiet https://github.com/biod/sambamba/releases/download/v0.7.1/sambamba-0.7.1-linux-static.gz ;\
-    #gunzip sambamba-0.7.1-linux-static.gz  ;\
-		#echo 'export PATH="${PATH}:/opt/sambamba/bin"'                       >> /etc/bashrc    ;\
-    #echo 'export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/sambamba/lib"' >> /etc/bashrc    ;\
-    #cd .. ;\
+    # there is bioconda sambamba so this isn't really needed
+    mkdir -p /opt/sambamba &&  cd /opt/sambamba ;\
+    wget --quiet https://github.com/biod/sambamba/releases/download/v0.7.1/sambamba-0.7.1-linux-static.gz ;\
+    gunzip sambamba-0.7.1-linux-static.gz  ;\
+		echo 'export PATH="${PATH}:/opt/sambamba/bin"'                       >> /etc/bashrc    ;\
+    echo 'export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/sambamba/lib"' >> /etc/bashrc    ;\
+    cd .. ;\
 
     echo '==================================================================' ;\
     echo '==================================================================' ;\
@@ -43,7 +44,11 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     date | TZ=PST8PDT tee -a                       _TOP_DIR_OF_CONTAINER_     ;\
     echo '==================================================================' ;\
     echo '==================================================================' ;\
+    #/opt/conda/bin/conda config --add channels defaults ;\
+    /opt/conda/bin/conda config --add channels bioconda ;\
+    /opt/conda/bin/conda config --add channels conda-forge ;\
     /opt/conda/bin/conda install bwa coverm sambamba ;\
+		# bwa was really just example from bioconda, may not be needed
     echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)' 
 
 
