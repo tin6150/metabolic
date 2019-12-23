@@ -62,7 +62,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Dockerfile.perl 2019.1218 2245"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.perl 2019.1222.2050"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 #- ENV TZ America/Los_Angeles  
