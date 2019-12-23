@@ -44,8 +44,11 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo '==================================================================' ;\
     echo '==================================================================' ;\
     /opt/conda/bin/conda install bwa coverm sambamba ;\
+    echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)' 
 
-    echo '========================================================'   ;\
+
+# trying to split into multiple RUN to see if get around docker hub out of space problem
+RUN echo '========================================================'   ;\
     echo '========================================================'   ;\
     echo "compiling metabolic" | tee -a _TOP_DIR_OF_CONTAINER_        ;\
     date | TZ=PST8PDT tee -a            _TOP_DIR_OF_CONTAINER_        ;\
@@ -58,13 +61,13 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     git clone --quiet https://github.com/AnantharamanLab/METABOLIC.git ;\
     cd METABOLIC ;\
     git log > metabolics.git.log ;\
+    echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)' 
 
-    bash -x ./run_to_setup.sh | tee run_to_setup.LOG ;\
+RUN bash -x ./run_to_setup.sh | tee run_to_setup.LOG ;\
     chmod a+x *pl ;\
     echo $? > _METABOLIC_BUILD_END_ ;\
     cd .. ;\
     mkdir slowdata ;\
-
     echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)' 
 
 # below can be removed once Dockerfile.base has executed a new build.
@@ -78,7 +81,7 @@ RUN     apt-get -y --force-yes --quiet install  xpdf   libxml2 libtinfo5 libtinf
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Dockerfile 2019.1222.2053"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile 2019.1222.2222"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 #- ENV TZ America/Los_Angeles  
