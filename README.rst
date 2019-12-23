@@ -10,6 +10,7 @@ Starting the Metabolic container
 ================================
 
 ::
+
 	singularity pull --name metabolic.sif shub://tin6150/metabolic
 	./metabolic.sif
 	-or-
@@ -46,19 +47,25 @@ Example Run:  METABOLIC-G.pl
 Info about the Metabolic container
 ==================================
 
-A docker container is build first, done as 3 parts:
+A docker container is build first, done as 3 cascading parts:
 
 1. Dockerfile.base: Debian Linux with R 3.6.2 (and CRAN libs) and number of .deb packages to satisfy dependencies (Hmmer, etc)
 
 2. Dockerfile.perl: add BioPerl and other CPAN libraries
 
 3. Dockerfile.metabolic: add miniconda, sambamba, and METABOLIC.
-   run_setup.sh has been run, software is installed under /opt/METABOLIC
-   5_genomes_test has been extracted under this directory as well, but dir by default is not writable.
+    - run_setup.sh has been run, software is installed under /opt/METABOLIC .
+    - 5_genomes_test has been extracted under this directory as well, but dir by default is not writable.
 
 
-The docker container has also been converted into a Singularity container for use by end user without priviledged access.
+The last docker container is then converted into a Singularity container for use by end user without priviledged access.
 
+
+Container links
+===============
+
+* https://hub.docker.com/repository/docker/tin6150/metabolic
+* https://singularity-hub.org/collections/3934
 
 
 Build Commands
