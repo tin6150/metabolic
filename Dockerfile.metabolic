@@ -10,8 +10,9 @@ MAINTAINER Tin (at) LBL.gov
 #RUN  echo "Building ... this isn't likely working yet" 
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG TZ=PST8PDT
-ARG PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda/bin
+ARG PERL_MM_USE_DEFAULT=1
+ENV TZ=America/Chicago
+#ARG PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda/bin
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda/bin
 
 
@@ -19,9 +20,10 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "begining docker build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     date | TZ=PST8PDT tee -a       _TOP_DIR_OF_CONTAINER_ ;\
     test -d /opt/gitrepo  || mkdir -p /opt/gitrepo        ;\
+    cd      /opt/gitrepo ;\
     test -d /opt/gitrepo/metabolic  || git clone https://github.com/tin6150/metabolic.git  ;\
     cd /opt/gitrepo/metabolic &&  git pull && cd -                                         ;\
-
+    cd ../.. ;\
     echo '========================================================'   ;\
     echo "installing packages wget/sh"  | tee -a _TOP_DIR_OF_CONTAINER_   ;\
     date | TZ=PST8PDT tee -a      _TOP_DIR_OF_CONTAINER_              ;\
@@ -33,13 +35,13 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo 'export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/conda/lib"' >> /etc/bashrc    ;\
     cd .. ;\
 
-    # there is bioconda sambamba so this isn't really needed
-    mkdir -p /opt/sambamba &&  cd /opt/sambamba ;\
-    wget --quiet https://github.com/biod/sambamba/releases/download/v0.7.1/sambamba-0.7.1-linux-static.gz ;\
-    gunzip sambamba-0.7.1-linux-static.gz  ;\
-    echo 'export PATH="${PATH}:/opt/sambamba/bin"'                       >> /etc/bashrc    ;\
-    echo 'export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/sambamba/lib"' >> /etc/bashrc    ;\
-    cd ../.. ;\
+    ##There is bioconda sambamba so this isn't really needed
+    ##mkdir -p /opt/sambamba &&  cd /opt/sambamba ;\
+    ##wget --quiet https://github.com/biod/sambamba/releases/download/v0.7.1/sambamba-0.7.1-linux-static.gz ;\
+    ##gunzip sambamba-0.7.1-linux-static.gz  ;\
+    ##echo 'export PATH="${PATH}:/opt/sambamba/bin"'                       >> /etc/bashrc    ;\
+    ##echo 'export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/sambamba/lib"' >> /etc/bashrc    ;\
+    ##cd ../.. ;\
 
     echo '==================================================================' ;\
     echo '==================================================================' ;\
@@ -90,13 +92,13 @@ RUN     apt-get -y --force-yes --quiet install  xpdf   libxml2 libtinfo5 libtinf
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Dockerfile 2019.1222.2222"  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Dockerfile 2019.1223.1053 (tmp sym link for diamond)"  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Dockerfile 2019.1223.1104 (fix sh/test)"               >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Build Info: Dockerfile 2019.1222.2222"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile 2019.1223.1053 (tmp sym link for diamond)"    >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile 2019.1223.1104 (fix sh/test)"                 >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Build Info: Dockerfile 2019.1224.0830 (fix cd gitrepo)"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
-#- ENV TZ America/Los_Angeles  
-ENV TZ America/Los_Angeles 
+#ENV TZ America/Los_Angeles 
 # ENV TZ likely changed/overwritten by container's /etc/csh.cshrc
 #ENV DOCKERFILE Dockerfile[.cmaq]
 # does overwrite parent def of ENV DOCKERFILE
