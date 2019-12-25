@@ -11,7 +11,8 @@ MAINTAINER Tin (at) LBL.gov
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG PERL_MM_USE_DEFAULT=1
-ENV TZ=America/Chicago # tail -1 /usr/share/zoneinfo/America/Chicago = CST6CDT,M3.2.0,M11.1.0
+ARG TZ=PST8PDT 
+#ENV TZ=America/Chicago # tail -1 /usr/share/zoneinfo/America/Chicago = CST6CDT,M3.2.0,M11.1.0
 #ARG PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda/bin
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda/bin
 
@@ -99,28 +100,15 @@ RUN     apt-get -y --force-yes --quiet install  xpdf   libxml2 libtinfo5 libtinf
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Build Info: Dockerfile 2019.1222.2222"  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Dockerfile 2019.1223.1053 (tmp sym link for diamond)"    >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Dockerfile 2019.1223.1104 (fix sh/test)"                 >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Build Info: Dockerfile 2019.1224.0830 (fix cd gitrepo)"  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Build Info: Dockerfile 2019.1224.2053 (df info)"         >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Build Info: Dockerfile 2019.1225.1227"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 #ENV TZ America/Los_Angeles 
-# ENV TZ likely changed/overwritten by container's /etc/csh.cshrc
-#ENV DOCKERFILE Dockerfile[.cmaq]
-# does overwrite parent def of ENV DOCKERFILE
-ENV TEST_DOCKER_ENV     this_env_will_be_avail_when_container_is_run_or_exec
-ENV TEST_DOCKER_ENV_2   Can_use_ADD_to_make_ENV_avail_in_build_process
+#ENV TZ likely changed/overwritten by container's /etc/csh.cshrc
+ENV DOCKERFILE Dockerfile.metabolic # DOES overwrite parent def of ENV DOCKERFILE
 ENV TEST_DOCKER_ENV_REF https://vsupalov.com/docker-arg-env-variable-guide/#setting-env-values
 # but how to append, eg add to PATH?
 
-#ENTRYPOINT ["cat", "/Downloads/netcdf-fotran-4.4.5/_END_BUILD_NETCDF_"]
-#ENTRYPOINT ["cat", "/Downloads/CMAQ/_CMAQ_BUILD_END_"]
-#ENTRYPOINT ["cat", "/_TOP_DIR_OF_CONTAINER_"]
 ENTRYPOINT [ "/bin/bash" ]
+#ENTRYPOINT [ "TZ=PST8PDT /bin/bash" ]
 # if no defined ENTRYPOINT, default to bash inside the container
-# parent container defined tcsh.
-# can also run with exec bash to get shell:
-# docker exec -it tin6150/metabolic -v $HOME:/home/tin  bash 
-# careful not to cover /home/username (for this container)

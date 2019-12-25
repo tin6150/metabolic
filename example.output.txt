@@ -1,0 +1,40 @@
+**^ tin n0000.dirac1 /global/scratch/tin/singularity-repo ^**>   singularity exec metabolic.sif perl /opt/METABOLIC/METABOLIC-G.pl -t 34 -in-gn $BASE/5_genomes_test/Genome_files -o $BASE/metabolic_out -m /opt/METABOLIC/[2019-12-25 12:48:07] The Prodigal annotation is running...
+date
+[2019-12-25 12:48:42] The Prodigal annotation is finished
+[2019-12-25 12:48:43] The hmmsearch is running with 34 cpu threads...
+[2019-12-25 13:16:00] The hmmsearch is finished
+[2019-12-25 13:16:20] The hmm hit result is calculating...
+[2019-12-25 13:16:20] Generating each hmm faa collection...
+[2019-12-25 13:16:21] Each hmm faa collection has been made
+[2019-12-25 13:16:21] The KEGG module result is calculating...
+[2019-12-25 13:19:09] The KEGG identifier (KO id) result is calculating...
+[2019-12-25 13:19:09] The KEGG identifier (KO id) seaching result is finished
+[2019-12-25 13:19:09] Searching CAZymes by dbCAN2...
+[2019-12-25 13:20:29] dbCAN2 searching is done
+[2019-12-25 13:20:29] Searching MEROPS peptidase...
+diamonddiamonddiamonddiamonddiamond v v v v0.9.29 v0.9.290.9.29.0.9.29..130130 | by Benjamin Buchfink <buchfink@gmail.com> | by Benjamin Buchfink <buchfink@gmail.com>1300.9.29.
+ | by Benjamin Buchfink <buchfink@gmail.com>
+.Licensed under the GNU GPL <https://www.gnu.org/licenses/gpl.txt>
+130
+130Licensed under the GNU GPL <https://www.gnu.org/licenses/gpl.txt> | by Benjamin Buchfink <buchfink@gmail.com>Licensed under the GNU GPL <https://www.gnu.org/licenses/gpl.txt> | by Benjamin Buchfink <buchfink@gmail.com>Check http://github.com/bbuchfink/diamond for updates.
+
+
+Licensed under the GNU GPL <https://www.gnu.org/licenses/gpl.txt>
+
+
+Licensed under the GNU GPL <https://www.gnu.org/licenses/gpl.txt>Check http://github.com/bbuchfink/diamond for updates.
+Check http://github.com/bbuchfink/diamond for updates.Check http://github.com/bbuchfink/diamond for updates.
+
+
+
+
+
+
+Check http://github.com/bbuchfink/diamond for updates.
+
+[2019-12-25 13:22:15] MEROPS peptidase searching is done
+[2019-12-25 13:22:15] METABOLIC table has been generated
+[2019-12-25 13:22:15] Drawing element cycling diagrams...
+Loading required package: shape
+[2019-12-25 13:22:17] Drawing element cycling diagrams finished
+

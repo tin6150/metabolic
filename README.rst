@@ -31,17 +31,30 @@ REMEMBER: content stored INSIDE the container is ephemeral and lost when contain
 Example Run:  METABOLIC-G.pl
 ============================
 
+For interactive run, shell into the container (eg ./metabolic.sif), then run:
+
 ::
 
-	cd $HOME    # if using lawrencium, please use luster scratch dir instead.
+
+	cd $HOME    
+	cd /global/scratch/$USER   # please use luster scratch dir if avail
 	tar xfz /opt/METABOLIC/5_genomes_test.tgz
-	perl /opt/METABOLIC/METABOLIC-G.pl -in-gn $HOME/5_genomes_test/Genome_files -t 34 -o $HOME/metabolic_out -m /opt/METABOLIC/
+	perl /opt/METABOLIC/METABOLIC-G.pl -t 34 -in-gn ./5_genomes_test/Genome_files -o ./metabolic_out -m /opt/METABOLIC/
 
 	# options are:
 	# -in-gn [folder with all your genomes] 
-	# -t [number of threads]   # even at 34 threads on 36-core machine, load average seems to remain below 8.
+	# -t [number of threads]  # adjust per lscpu ( though even at 34 threads on 36-core machine, load average seems to remain below 8.)
 	# -o [METABOLIC output folder] 
 	# -m your/path/to/put/METABOLIC-folder
+
+
+
+As batch job (eg in a slurm script), use:
+
+::
+
+	export BASE=/global/scratch/$USER
+	singularity exec metabolic.sif perl /opt/METABOLIC/METABOLIC-G.pl -t 34 -in-gn $BASE/5_genomes_test/Genome_files -o $BASE/metabolic_out -m /opt/METABOLIC/
 
 
 Info about the Metabolic container

@@ -11,20 +11,24 @@ MAINTAINER Tin (at) LBL.gov
 
 #RUN  echo "Building ... this isn't likely working yet" 
 
-ARG TZ="America/Denver"
+#ARG TZ="America/Denver"
+ARG TZ="America/Los_Angeles"
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "begining docker build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     date | TZ=PST8PDT tee -a       _TOP_DIR_OF_CONTAINER_ ;\
     test -d /opt/gitrepo  || mkdir -p /opt/gitrepo        ;\
-	  test -d /opt/gitrepo/metabolic  || git clone https://github.com/tin6150/metabolic.git  ;\
-	  cd /opt/gitrepo/metabolic &&  git pull && cd -   ;\
+    cd      /opt/gitrepo  ;\
+    test -d /opt/gitrepo/metabolic  || git clone https://github.com/tin6150/metabolic.git  ;\
+    cd      /opt/gitrepo/metabolic &&  git pull && cd -   ;\
+    cd      /  ;\
 
     echo '==================================================================' ;\
     echo "installing perl/cpan packages"  | tee -a _TOP_DIR_OF_CONTAINER_     ;\  
     date | TZ=PST8PDT tee -a                       _TOP_DIR_OF_CONTAINER_     ;\  
     echo '==================================================================' ;\
+    # TBD, future adopt tin6150/bioperl use of external shell scripts to do more complete install
     export PERL_MM_USE_DEFAULT=1                                              ;\
     # cpan -f is force, -i is install.  Bio::Perl is a beast and won't install :(
     PERL_MM_USE_DEFAULT=1 cpan -fi Data::Dumper                               ;\
@@ -65,26 +69,16 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Dockerfile.perl 2019.1222.2050"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.perl 2019.1225.1225"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
-#- ENV TZ America/Los_Angeles  
-ENV TZ America/Los_Angeles 
-# ENV TZ likely changed/overwritten by container's /etc/csh.cshrc
-#ENV DOCKERFILE Dockerfile[.cmaq]
-# does overwrite parent def of ENV DOCKERFILE
-ENV TEST_DOCKER_ENV     this_env_will_be_avail_when_container_is_run_or_exec
+# ENV TZ America/Los_Angeles  
+# ENV TZ could be changed/overwritten by container's /etc/csh.cshrc
+ENV DOCKERFILE Dockerfile.perl # DOES overwrite parent def of ENV DOCKERFILE
 ENV TEST_DOCKER_ENV_2   Can_use_ADD_to_make_ENV_avail_in_build_process
 ENV TEST_DOCKER_ENV_REF https://vsupalov.com/docker-arg-env-variable-guide/#setting-env-values
 ENV DOCKER_MANTABOLIC_PERL "CPAN packages, including bioperl"
 # but how to append, eg add to PATH?
 
-#ENTRYPOINT ["cat", "/Downloads/netcdf-fotran-4.4.5/_END_BUILD_NETCDF_"]
-#ENTRYPOINT ["cat", "/Downloads/CMAQ/_CMAQ_BUILD_END_"]
-#ENTRYPOINT ["cat", "/_TOP_DIR_OF_CONTAINER_"]
 ENTRYPOINT [ "/bin/bash" ]
 # if no defined ENTRYPOINT, default to bash inside the container
-# parent container defined tcsh.
-# can also run with exec bash to get shell:
-# docker exec -it tin6150/metabolic -v $HOME:/home/tin  bash 
-# careful not to cover /home/username (for this container)
