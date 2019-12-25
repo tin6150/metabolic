@@ -11,14 +11,16 @@ MAINTAINER Tin (at) LBL.gov
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG PERL_MM_USE_DEFAULT=1
-ENV TZ=America/Chicago
+ENV TZ=America/Chicago # tail -1 /usr/share/zoneinfo/America/Chicago = CST6CDT,M3.2.0,M11.1.0
 #ARG PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda/bin
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda/bin
 
 
 RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "begining docker build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
-    date | TZ=PST8PDT tee -a       _TOP_DIR_OF_CONTAINER_ ;\
+    date  | tee -a       _TOP_DIR_OF_CONTAINER_ ;\
+		echo "df -h at beginning of Docker.metabolic" | tee -a _TOP_DIR_OF_CONTAINER_ ;\
+		df -h | tee -a   _TOP_DIR_OF_CONTAINER_ ;\
     test -d /opt/gitrepo  || mkdir -p /opt/gitrepo        ;\
     cd      /opt/gitrepo ;\
     test -d /opt/gitrepo/metabolic  || git clone https://github.com/tin6150/metabolic.git  ;\
@@ -71,11 +73,16 @@ RUN echo '========================================================'   ;\
     git clone --quiet https://github.com/AnantharamanLab/METABOLIC.git ;\
     cd METABOLIC ;\
     git log > metabolics.git.log ;\
+		echo "df -h before Metabolic run_to_setup.sh" | tee -a   /_TOP_DIR_OF_CONTAINER_ ;\
+		df -h | tee -a   /_TOP_DIR_OF_CONTAINER_ ;\
     bash -x ./run_to_setup.sh | tee run_to_setup.LOG ;\
+		echo $? | tee run_to_setup.exit.code             ;\
+		echo "df -h before Metabolic run_to_setup.sh" | tee -a   /_TOP_DIR_OF_CONTAINER_ ;\
+		df -h | tee -a   /_TOP_DIR_OF_CONTAINER_ ;\
     chmod a+x *pl ;\
     chmod a+x /opt/METABOLIC/METABOLIC-G.pl ;\
     chmod a+x /opt/METABOLIC/METABOLIC-C.pl ;\
-    echo $? > _METABOLIC_BUILD_END_         ;\
+    touch  _METABOLIC_BUILD_END_         ;\
     cd ../.. ;\
     mkdir slowdata ;\
     echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)' 
@@ -96,6 +103,7 @@ RUN     cd / \
   && echo  "Dockerfile 2019.1223.1053 (tmp sym link for diamond)"    >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Dockerfile 2019.1223.1104 (fix sh/test)"                 >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Build Info: Dockerfile 2019.1224.0830 (fix cd gitrepo)"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Build Info: Dockerfile 2019.1224.2053 (df info)"         >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 #ENV TZ America/Los_Angeles 
