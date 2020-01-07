@@ -25,9 +25,9 @@ From: tin6150/metabolic
 	chmod 1777 /home/tmp
 
 	# tmp add here till upstream container build is completed
-    apt-get -y --force-yes --quiet install libcurl4-openssl-dev  libxml2-dev libssl-dev httrack libhttrack-dev libhttrack2 harvest-tools git
+    apt-get -y --force-yes --quiet install libcurl4-openssl-dev  libxml2-dev libssl-dev httrack libhttrack-dev libhttrack2 harvest-tools git 
 	Rscript --quiet -e 'install.packages("tidyverse", repos = "http://cran.us.r-project.org")' 
-	Rscript --quiet -e 'library()' > R_library_list.txt.singularity 
+	Rscript --quiet -e 'library()' > R_library_list.out.txt.singularity 
     
 
 %runscript
@@ -47,7 +47,7 @@ From: tin6150/metabolic
 # singularity shell metabolic.sif
 
 # manual build cmd (singularity 3.2): 
-# sudo singularity build --sandbox ./metabolic.sif Singularity 2>&1  | tee singularity_build.log
+# sudo SINGULARITY_TMPDIR=/global/scratch/tin/tmp singularity build --sandbox ./metabolic.sif Singularity 2>&1  | tee singularity_build.log
 #
 # manual build cmd (singularity 2.6): 
 # sudo /opt/singularity-2.6/bin/singularity build --writable metabolic_b1219a.img Singularity 2>&1  | tee singularity_build.log
