@@ -52,6 +52,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     Rscript --quiet -e 'install.packages("reshape2",   repos = "http://cran.us.r-project.org")'    ;\
     Rscript --quiet -e 'install.packages("ggraph",     repos = "http://cran.us.r-project.org")'    ;\
     echo $? > Rscript.exit.code   ;\
+    Rscript --quiet -e 'library()' > R_library_list.txt    ;\
 
     echo 'last line of RUN block in Dockerbuild without continuation :)'
 
@@ -60,6 +61,7 @@ RUN     cd / \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
   && echo  "Dockerfile.base 2019.1225.1222"         >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Dockerfile.base 2020.0107.1248 (.deb for tidyverse )"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.base 2020.0107.1302 (R_library_list.txt )"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 # ENV TZ America/Los_Angeles 

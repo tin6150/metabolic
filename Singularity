@@ -8,7 +8,7 @@ From: tin6150/metabolic
 	touch "_ROOT_DIR_OF_CONTAINER_" ## also is "_CURRENT_DIR_CONTAINER_BUILD" 
 	date >> _ROOT_DIR_OF_CONTAINER_
 	echo "Singularity def 2019.1219.0725" >> _ROOT_DIR_OF_CONTAINER_
-	echo "Singularity def 2020.0107.1228 (.deb 4 tidyverse)" >> _ROOT_DIR_OF_CONTAINER_
+	echo "Singularity def 2020.0107.1303 (.deb 4 tidyverse)" >> _ROOT_DIR_OF_CONTAINER_
 
 	# docker run as root, but singularity may run as user, so adding these hacks here
 	mkdir -p /global/scratch/tin
@@ -27,6 +27,7 @@ From: tin6150/metabolic
 	# tmp add here till upstream container build is completed
     apt-get -y --force-yes --quiet install libcurl4-openssl-dev  libxml2-dev libssl-dev httrack libhttrack-dev libhttrack2 harvest-tools git
 	Rscript --quiet -e 'install.packages("tidyverse", repos = "http://cran.us.r-project.org")' 
+	Rscript --quiet -e 'library()' > R_library_list.txt.singularity 
     
 
 %runscript
@@ -45,7 +46,10 @@ From: tin6150/metabolic
 # singularity pull --name metabolic_b1219.sif shub://tin6150/metabolic
 # singularity shell metabolic.sif
 
-# manual build cmd:
+# manual build cmd (singularity 3.2): 
+# sudo singularity build --sandbox ./metabolic.sif Singularity 2>&1  | tee singularity_build.log
+#
+# manual build cmd (singularity 2.6): 
 # sudo /opt/singularity-2.6/bin/singularity build --writable metabolic_b1219a.img Singularity 2>&1  | tee singularity_build.log
 #
 # eg run cmd on bofh w/ singularity 2.6.2:

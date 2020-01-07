@@ -1,0 +1,24 @@
+
+# Run in R to check if library can load without error.
+# But library() should be good enough test that library is installed.
+
+
+library(diagram)
+library(forcats)
+library(digest)
+library(htmltools,rmarkdown)
+library(htmltools,rmarkdown,reprex,stringi,ggthemes)
+library(htmltools,rmarkdown,reprex,ggthemes,ggalluvial,reshape2,ggraph)
+library(htmltools,rmarkdown,reprex,ggalluvial,reshape2,ggraph)
+library(htmltools,rmarkdown,reprex,ggraph)
+library(htmltools,rmarkdown,reprex)
+library(ggraph)
+library(reshape2)
+library(ggalluvial)
+
+library(ggthemes)
+library(stringi)
+library(reprex)
+library(tidyverse)
+
+
