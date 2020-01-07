@@ -62,11 +62,11 @@ Info about the Metabolic container
 
 A docker container is build first, done as 3 cascading parts:
 
-1. Dockerfile.base: Debian Linux with R 3.6.2 (and CRAN libs) and number of .deb packages to satisfy dependencies (Hmmer, etc)
+1. Dockerfile.base [tin6150/base4metabolic]: Debian Linux with R 3.6.2 (and CRAN libs) and number of .deb packages to satisfy dependencies (Hmmer, etc)
 
-2. Dockerfile.perl: add BioPerl and other CPAN libraries
+2. Dockerfile.perl [tin6150/perl4metabolic]: add BioPerl and other CPAN libraries
 
-3. Dockerfile.metabolic: add miniconda, sambamba, and METABOLIC.
+3. Dockerfile.metabolic [tin6150/metabolic]: add miniconda, sambamba, and METABOLIC.
     - run_setup.sh has been run, software is installed under /opt/METABOLIC .
     - 5_genomes_test has been extracted under this directory as well, but dir by default is not writable.
 

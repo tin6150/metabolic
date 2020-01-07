@@ -14,7 +14,7 @@ MAINTAINER Tin (at) LBL.gov
 #RUN  echo "Building ... this isn't likely working yet" 
 
 ARG DEBIAN_FRONTEND=noninteractive
-ARG TZ=PST8PDT
+ENV TZ=PST8PDT
 
 RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "begining docker build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
@@ -57,7 +57,8 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Dockerfile.base 2019.1225.1222"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.base 2019.1225.1222"         >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.base 2020.0107 (tidyverse)"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 # ENV TZ America/Los_Angeles 
