@@ -20,14 +20,16 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "begining docker build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     export TZ=PST8PDT                                     ;\
     date | TZ=PST8PDT tee -a       _TOP_DIR_OF_CONTAINER_ ;\
+    apt-get -y --force-yes --quiet install git wget gzip apt-utils ;\
     test -d /opt/gitrepo  || mkdir -p /opt/gitrepo        ;\
     test -d /opt/gitrepo/metabolic  || git clone https://github.com/tin6150/metabolic.git  ;\
     cd /opt/gitrepo/metabolic &&  git pull && cd -                                         ;\
     echo "installing packages via apt"       | tee -a _TOP_DIR_OF_CONTAINER_               ;\
     apt-get update ;\
-    apt-get -y --force-yes --quiet install perl-base r-base hmmer prodigal bamtools python git file wget gzip bash tcsh zsh less vim bc tmux screen xterm xpdf apt-utils ;\
+    apt-get -y --force-yes --quiet install perl-base r-base hmmer prodigal bamtools python file bash tcsh zsh less vim bc tmux screen xterm xpdf ;\
     apt-get -y --force-yes --quiet install libxml2 libtinfo5 libtinfo6 diamond-aligner     ;\
     apt-get -y --force-yes --quiet install environment-modules libterm-shellui-perl cpanoutdated    ;\
+    apt-get -y --force-yes --quiet install libcurl4-openssl-dev libxml2-dev libssl-dev httrack libhttrack-dev libhttrack2 harvest-tools  ;\
     cd /usr/bin && ln -s diamond-aligner diamond && cd - ;\
     dpkg --list > dpkg--list.output ;\
     # libtinfo5,6 added to see if rid of:
@@ -49,7 +51,6 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     Rscript --quiet -e 'install.packages("ggalluvial", repos = "http://cran.us.r-project.org")'    ;\
     Rscript --quiet -e 'install.packages("reshape2",   repos = "http://cran.us.r-project.org")'    ;\
     Rscript --quiet -e 'install.packages("ggraph",     repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --quiet -e 'install.packages("tidyverse",  repos = "http://cran.us.r-project.org")'    ;\
     echo $? > Rscript.exit.code   ;\
 
     echo 'last line of RUN block in Dockerbuild without continuation :)'
@@ -58,7 +59,7 @@ RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
   && echo  "Dockerfile.base 2019.1225.1222"         >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Dockerfile.base 2020.0107 (tidyverse)"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.base 2020.0107.1248 (.deb for tidyverse )"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 # ENV TZ America/Los_Angeles 
