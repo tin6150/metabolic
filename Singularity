@@ -24,6 +24,10 @@ From: tin6150/metabolic
 	chown -R 43143 /Downloads
 	chmod 1777 /home/tmp
 
+	# tmp add here till upstream container build is completed
+	Rscript --quiet -e 'install.packages("tidyverse", repos = "http://cran.us.r-project.org")' 
+    
+
 %runscript
     #TZ=PST8PDT /bin/tcsh
     #/bin/bash -i 
