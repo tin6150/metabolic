@@ -20,16 +20,22 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "begining docker build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     export TZ=PST8PDT                                     ;\
     date | TZ=PST8PDT tee -a       _TOP_DIR_OF_CONTAINER_ ;\
-    apt-get -y --force-yes --quiet install git wget gzip apt-utils ;\
-    test -d /opt/gitrepo  || mkdir -p /opt/gitrepo        ;\
-    test -d /opt/gitrepo/metabolic  || git clone https://github.com/tin6150/metabolic.git  ;\
-    cd /opt/gitrepo/metabolic &&  git pull && cd -                                         ;\
+    # really weired.  git will just not get installed here 
+    apt-get -y --quiet install git wget gzip  ;\
+    echo "installing apt-utils, not findable? already there?" | tee -a _TOP_DIR_OF_CONTAINER_ ;\
+    apt-get -y --force-yes --quiet install apt-utils      ;\
     echo "installing packages via apt"       | tee -a _TOP_DIR_OF_CONTAINER_               ;\
     apt-get update ;\
     apt-get -y --force-yes --quiet install perl-base r-base hmmer prodigal bamtools python file bash tcsh zsh less vim bc tmux screen xterm xpdf ;\
     apt-get -y --force-yes --quiet install libxml2 libtinfo5 libtinfo6 diamond-aligner     ;\
     apt-get -y --force-yes --quiet install environment-modules libterm-shellui-perl cpanoutdated    ;\
     apt-get -y --force-yes --quiet install libcurl4-openssl-dev libxml2-dev libssl-dev httrack libhttrack-dev libhttrack2 harvest-tools  ;\
+    apt-get -y --quiet install bowtie2  ;\
+    echo "git cloning the repo for reference/tracking" | tee -a _TOP_DIR_OF_CONTAINER_ ;\
+    apt-get -y --quiet install git  ;\
+    test -d /opt/gitrepo  || mkdir -p /opt/gitrepo        ;\
+    test -d /opt/gitrepo/metabolic  || git clone https://github.com/tin6150/metabolic.git  ;\
+    cd /opt/gitrepo/metabolic &&  git pull && cd -                                         ;\
     cd /usr/bin && ln -s diamond-aligner diamond && cd - ;\
     dpkg --list > dpkg--list.output ;\
     # libtinfo5,6 added to see if rid of:
@@ -59,9 +65,8 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Dockerfile.base 2019.1225.1222"         >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Dockerfile.base 2020.0107.1248 (.deb for tidyverse )"  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Dockerfile.base 2020.0107.1302 (R_library_list.txt )"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.base 2020.0109.1242 (git, bowtie2)"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 # ENV TZ America/Los_Angeles 

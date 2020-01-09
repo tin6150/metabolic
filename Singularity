@@ -7,8 +7,7 @@ From: tin6150/metabolic
 %post
 	touch "_ROOT_DIR_OF_CONTAINER_" ## also is "_CURRENT_DIR_CONTAINER_BUILD" 
 	date >> _ROOT_DIR_OF_CONTAINER_
-	echo "Singularity def 2019.1219.0725" >> _ROOT_DIR_OF_CONTAINER_
-	echo "Singularity def 2020.0107.1303 (.deb 4 tidyverse)" >> _ROOT_DIR_OF_CONTAINER_
+	echo "Singularity def 2020.0109.1258 (bowtie2,gtdbtk)" >> _ROOT_DIR_OF_CONTAINER_
 
 	# docker run as root, but singularity may run as user, so adding these hacks here
 	mkdir -p /global/scratch/tin
@@ -26,6 +25,8 @@ From: tin6150/metabolic
 
 	# tmp add here till upstream container build is completed
     apt-get -y --force-yes --quiet install libcurl4-openssl-dev  libxml2-dev libssl-dev httrack libhttrack-dev libhttrack2 harvest-tools git 
+    apt-get -y --quiet install bowtie2
+	conda install -c bioconda gtdbtk
 	Rscript --quiet -e 'install.packages("tidyverse", repos = "http://cran.us.r-project.org")' 
 	Rscript --quiet -e 'library()' > R_library_list.out.txt.singularity 
     

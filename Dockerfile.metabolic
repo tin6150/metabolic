@@ -53,9 +53,10 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo '==================================================================' ;\
     echo '==================================================================' ;\
     #/opt/conda/bin/conda config --add channels defaults ;\
-    /opt/conda/bin/conda config --add channels bioconda ;\
+    /opt/conda/bin/conda config --add channels bioconda    ;\
     /opt/conda/bin/conda config --add channels conda-forge ;\
-    /opt/conda/bin/conda install bwa coverm sambamba ;\
+    /opt/conda/bin/conda install bwa coverm sambamba       ;\
+    /opt/conda/bin/conda install -c bioconda gtdbtk        ;\
     # bwa was really just example from bioconda, may not be needed
     echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)' 
 
