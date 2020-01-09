@@ -15,6 +15,8 @@ ARG TZ=PST8PDT
 #ENV TZ=America/Chicago # tail -1 /usr/share/zoneinfo/America/Chicago = CST6CDT,M3.2.0,M11.1.0
 #ARG PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda/bin
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda/bin
+ENV GTDBTK_DATA_PATH=/tmp/GTDBTK_DATA 
+# either overwrite GTDBTK_DATA_PATH env with right path or place a sym link on the host
 
 
 RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
@@ -53,10 +55,11 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo '==================================================================' ;\
     echo '==================================================================' ;\
     #/opt/conda/bin/conda config --add channels defaults ;\
-    /opt/conda/bin/conda config --add channels bioconda    ;\
-    /opt/conda/bin/conda config --add channels conda-forge ;\
-    /opt/conda/bin/conda install bwa coverm sambamba       ;\
-    /opt/conda/bin/conda install -c bioconda gtdbtk        ;\
+    /opt/conda/bin/conda config --add channels bioconda             ;\
+    /opt/conda/bin/conda config --add channels conda-forge          ;\
+    /opt/conda/bin/conda install -y --quiet bwa coverm sambamba     ;\
+    /opt/conda/bin/conda install -y --quiet -v -c bioconda gtdbtk   ;\
+    # --quiet just skip the progress bar.  -vvv for trace 
     # bwa was really just example from bioconda, may not be needed
     echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)' 
 
