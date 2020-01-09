@@ -26,7 +26,7 @@ From: tin6150/metabolic
 	# tmp add here till upstream container build is completed
     apt-get -y --force-yes --quiet install libcurl4-openssl-dev  libxml2-dev libssl-dev httrack libhttrack-dev libhttrack2 harvest-tools git 
     apt-get -y --quiet install bowtie2
-	conda install -c bioconda gtdbtk
+	/opt/conda/bin/conda install -c bioconda gtdbtk
 	Rscript --quiet -e 'install.packages("tidyverse", repos = "http://cran.us.r-project.org")' 
 	Rscript --quiet -e 'library()' > R_library_list.out.txt.singularity 
     
