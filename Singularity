@@ -26,10 +26,20 @@ From: tin6150/metabolic
 	# tmp add here till upstream container build is completed
     apt-get -y --force-yes --quiet install libcurl4-openssl-dev  libxml2-dev libssl-dev httrack libhttrack-dev libhttrack2 harvest-tools git 
     apt-get -y --quiet install bowtie2
-	/opt/conda/bin/conda install -y --quiet -v -c bioconda gtdbtk   
+	#/opt/conda/bin/conda install -y --quiet -v -c bioconda  gtdbtk   
+	/opt/conda/bin/pip install  gtdbtk   
 	Rscript --quiet -e 'install.packages("tidyverse", repos = "http://cran.us.r-project.org")' 
 	Rscript --quiet -e 'library()' > R_library_list.out.txt.singularity 
     
+%environment
+	TZ=PST8PDT
+	GTDBTK_DATA_PATH=/tmp/GTDBTK_DATA
+	export TZ GTDBTK_DATA_PATH
+
+%labels
+	BUILD = 2019_0109_1515_gtdbtk
+	MAINTAINER = tin_at_lbl_dot_gov
+	REFERENCES = "https://github.com/tin6150/metabolic https://github.com/AnantharamanLab/METABOLIC"
 
 %runscript
     #TZ=PST8PDT /bin/tcsh
@@ -49,6 +59,7 @@ From: tin6150/metabolic
 
 # manual build cmd (singularity 3.2): 
 # sudo SINGULARITY_TMPDIR=/global/scratch/tin/tmp singularity build --sandbox ./metabolic.sif Singularity 2>&1  | tee singularity_build.log
+# sudo SINGULARITY_TMPDIR=/dev/shm singularity build --sandbox ./metabolic.sif Singularity 2>&1  | tee singularity_build.log
 #
 # manual build cmd (singularity 2.6): 
 # sudo /opt/singularity-2.6/bin/singularity build --writable metabolic_b1219a.img Singularity 2>&1  | tee singularity_build.log

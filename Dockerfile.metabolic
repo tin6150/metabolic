@@ -57,10 +57,11 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     #/opt/conda/bin/conda config --add channels defaults ;\
     /opt/conda/bin/conda config --add channels bioconda             ;\
     /opt/conda/bin/conda config --add channels conda-forge          ;\
-    /opt/conda/bin/conda install -y --quiet bwa coverm sambamba     ;\
-    /opt/conda/bin/conda install -y --quiet -v -c bioconda gtdbtk   ;\
     # --quiet just skip the progress bar.  -vvv for trace 
-    # bwa was really just example from bioconda, may not be needed
+    /opt/conda/bin/conda install -y --quiet bwa coverm sambamba     ;\
+    #/opt/conda/bin/conda install -y --quiet -v -c bioconda gtdbtk   ;\
+    # conda version above somehow result in version conflict, but pip install works (cuz get 1.0.1 ?)
+		/opt/conda/bin/pip install  gtdbtk                              ;\
     echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)' 
 
 
