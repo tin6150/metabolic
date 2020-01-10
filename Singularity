@@ -6,8 +6,9 @@ From: tin6150/metabolic
 
 %post
 	touch "_ROOT_DIR_OF_CONTAINER_" ## also is "_CURRENT_DIR_CONTAINER_BUILD" 
-	date >> _ROOT_DIR_OF_CONTAINER_
-	echo "Singularity def 2020.0109.1258 (bowtie2,gtdbtk)" >> _ROOT_DIR_OF_CONTAINER_
+	date     >> _ROOT_DIR_OF_CONTAINER_
+	hostname >> _ROOT_DIR_OF_CONTAINER_
+	echo "Singularity def 2020.0109.2242" >> _ROOT_DIR_OF_CONTAINER_
 
 	# docker run as root, but singularity may run as user, so adding these hacks here
 	mkdir -p /global/scratch/tin
@@ -24,11 +25,11 @@ From: tin6150/metabolic
 	chmod 1777 /home/tmp
 
 	# tmp add here till upstream container build is completed
-    apt-get -y --force-yes --quiet install libcurl4-openssl-dev  libxml2-dev libssl-dev httrack libhttrack-dev libhttrack2 harvest-tools git 
-    apt-get -y --quiet install bowtie2
+    #apt-get -y --force-yes --quiet install libcurl4-openssl-dev  libxml2-dev libssl-dev httrack libhttrack-dev libhttrack2 harvest-tools git 
+    #apt-get -y --quiet install bowtie2
 	#/opt/conda/bin/conda install -y --quiet -v -c bioconda  gtdbtk   
-	/opt/conda/bin/pip install  gtdbtk   
-	Rscript --quiet -e 'install.packages("tidyverse", repos = "http://cran.us.r-project.org")' 
+	#/opt/conda/bin/pip install  gtdbtk   
+	#Rscript --quiet -e 'install.packages("tidyverse", repos = "http://cran.us.r-project.org")' 
 	Rscript --quiet -e 'library()' > R_library_list.out.txt.singularity 
     
 %environment
@@ -37,7 +38,7 @@ From: tin6150/metabolic
 	export TZ GTDBTK_DATA_PATH
 
 %labels
-	BUILD = 2019_0109_1515_gtdbtk
+	BUILD = 2019_0109_2242
 	MAINTAINER = tin_at_lbl_dot_gov
 	REFERENCES = "https://github.com/tin6150/metabolic https://github.com/AnantharamanLab/METABOLIC"
 

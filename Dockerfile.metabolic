@@ -20,8 +20,10 @@ ENV GTDBTK_DATA_PATH=/tmp/GTDBTK_DATA
 
 
 RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
-    echo "begining docker build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
-    date  | tee -a       _TOP_DIR_OF_CONTAINER_ ;\
+    echo "=========================================== " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
+    echo "Begin Dockerfile.metabolic build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
+    hostname | tee -a _TOP_DIR_OF_CONTAINER_ ;\
+    date     | tee -a _TOP_DIR_OF_CONTAINER_ ;\
 		echo "df -h at beginning of Docker.metabolic" | tee -a _TOP_DIR_OF_CONTAINER_ ;\
 		df -h | tee -a   _TOP_DIR_OF_CONTAINER_               ;\
 		apt-get -y --quiet install git                        ;\
@@ -107,6 +109,7 @@ RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
   && echo  "Build Info: Dockerfile 2020.0109.1830"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Build Info: Dockerfile 2020.0109.2241 (hostname)"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 #ENV TZ America/Los_Angeles 

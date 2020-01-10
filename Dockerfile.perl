@@ -16,8 +16,10 @@ ARG TZ="America/Los_Angeles"
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
-    echo "begining docker build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
-    date | TZ=PST8PDT tee -a       _TOP_DIR_OF_CONTAINER_ ;\
+    echo "====================================== " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
+    echo "Begin Dockerfile.perl build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
+    hostname | tee -a       _TOP_DIR_OF_CONTAINER_        ;\
+    date     | tee -a       _TOP_DIR_OF_CONTAINER_        ;\
 		apt-get -y --quiet install git                        ;\
     test -d /opt/gitrepo  || mkdir -p /opt/gitrepo        ;\
     cd      /opt/gitrepo  ;\
@@ -71,6 +73,7 @@ RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
   && echo  "Dockerfile.perl 2019.1225.1225"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.perl 2020.0109.2039 (hostname)"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 # ENV TZ America/Los_Angeles  
