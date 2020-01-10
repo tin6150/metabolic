@@ -34,9 +34,11 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "git cloning the repo for reference/tracking" | tee -a _TOP_DIR_OF_CONTAINER_ ;\
     apt-get -y --quiet install git  ;\
     test -d /opt/gitrepo  || mkdir -p /opt/gitrepo        ;\
+    cd /opt/gitrepo       ;\
     test -d /opt/gitrepo/metabolic  || git clone https://github.com/tin6150/metabolic.git  ;\
     cd /opt/gitrepo/metabolic &&  git pull && cd -                                         ;\
     cd /usr/bin && ln -s diamond-aligner diamond && cd - ;\
+    cd / ;\
     dpkg --list > dpkg--list.output ;\
     # libtinfo5,6 added to see if rid of:
     # /usr/lib/R/bin/exec/R: /opt/conda/lib/libtinfo.so.6: no version information available (required by /lib/x86_64-linux-gnu/libreadline.so.8)
