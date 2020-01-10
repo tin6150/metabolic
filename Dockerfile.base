@@ -22,8 +22,8 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     date | TZ=PST8PDT tee -a       _TOP_DIR_OF_CONTAINER_ ;\
     # really weired.  git will just not get installed here 
     apt-get -y --quiet install git wget gzip  ;\
-    echo "installing apt-utils, not findable? already there?" | tee -a _TOP_DIR_OF_CONTAINER_ ;\
-    apt-get -y --force-yes --quiet install apt-utils      ;\
+    #echo "apt-utils need apt-utils to install via apt.  It is not needed, maybe not even desirable, just learn to ignore the warning." | tee -a _TOP_DIR_OF_CONTAINER_ ;\
+    #apt-get -y --force-yes --quiet install apt-utils      ;\
     echo "installing packages via apt"       | tee -a _TOP_DIR_OF_CONTAINER_               ;\
     apt-get update ;\
     apt-get -y --force-yes --quiet install perl-base r-base hmmer prodigal bamtools python file bash tcsh zsh less vim bc tmux screen xterm xpdf ;\
@@ -68,7 +68,8 @@ RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
   && echo  "Dockerfile.base 2020.0107.1248 (.deb for tidyverse )"  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Dockerfile.base 2020.0109.1242 (git, bowtie2)"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.base 2020.0109.1242 (git, bowtie2)"         >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.base 2020.0109.1830 (skip apt-utils)"       >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 # ENV TZ America/Los_Angeles 

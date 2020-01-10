@@ -128,6 +128,3 @@ tar xzf gtdbtk_r89_data.tar.gz
 See https://github.com/Ecogenomics/GTDBTk for links to newer db
 
 
-
-Executing transaction: / b'\n     GTDB-Tk v1.0.1 requires ~25G of external data which needs to be downloaded\n     and unarchived. This can be done automatically, or manually:\n\n     1. Run the command download-db.sh to automatically download to:\n        /opt/conda/share/gtdbtk-1.0.1/db/\n\n     2. Manually download the latest reference data:\n        https://github.com/Ecogenomics/GTDBTk#gtdb-tk-reference-data\n\n     2b. Set the GTDBTK_DATA_PATH environment variable in the files:\n         /opt/conda/etc/conda/activate.d\n         /opt/conda/etc/conda/deactivate.d\n\n\n'
-

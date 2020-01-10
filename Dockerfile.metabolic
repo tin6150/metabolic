@@ -106,7 +106,7 @@ RUN     apt-get -y --force-yes --quiet install  xpdf   libxml2 libtinfo5 libtinf
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Build Info: Dockerfile 2019.1225.1227"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Build Info: Dockerfile 2020.0109.1830"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 #ENV TZ America/Los_Angeles 
