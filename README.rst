@@ -115,6 +115,18 @@ Debug runs/tests
         docker run  -it -v $HOME:/home/tin tin6150/perl4metabolic
 
 
+container size
+==============
+
+singularity.sif is  5.9 GB      # Singularity 3.2 download from hub
+singularity.img is 21 GB        # 2.6 build on bofh
+docker image ls for metabolic is 16.9 GB (seems to have grown a lot since gtdbtk, but did not include DB).
+docker image ls for perl4metabolic is 1.83 GB.
+12 GB  is used by /opt/METABOLIC/kofam_database/
+
+above do not include the gtdbtk DB
+
+
 
 DB for gtdbtk 
 =============
