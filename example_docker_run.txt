@@ -1,0 +1,67 @@
+
+>  docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME:/tmp/home  tin6150/metabolic
+
+
+root@1921588cd5ce:/# cd /opt/METABOLIC
+
+root@1921588cd5ce:/opt/METABOLIC# ls 5_genomes_test
+Genome_files  METABOLIC_out  run_METABOLIC-G.log  run_METABOLIC-G.sh
+
+
+
+root@1921588cd5ce:/opt/METABOLIC# perl /opt/METABOLIC/METABOLIC-G.pl -t 34 -in-gn ./5_genomes_test/Genome_files -o ./metabolic_out -m /opt/METABOLIC/
+[2020-01-22 09:58:14] The Prodigal annotation is running...
+[2020-01-22 09:58:46] The Prodigal annotation is finished
+[2020-01-22 09:58:47] The hmmsearch is running with 34 cpu threads...
+[2020-01-22 10:25:55] The hmmsearch is finished
+[2020-01-22 10:25:59] The hmm hit result is calculating...
+[2020-01-22 10:25:59] Generating each hmm faa collection...
+[2020-01-22 10:25:59] Each hmm faa collection has been made
+[2020-01-22 10:25:59] The KEGG module result is calculating...
+[2020-01-22 10:30:17] The KEGG identifier (KO id) result is calculating...
+[2020-01-22 10:30:18] The KEGG identifier (KO id) seaching result is finished
+[2020-01-22 10:30:18] Searching CAZymes by dbCAN2...
+[2020-01-22 10:31:42] dbCAN2 searching is done
+[2020-01-22 10:31:42] Searching MEROPS peptidase...
+diamonddiamonddiamonddiamonddiamond v v v v0.9.290.9.290.9.29 v.0.9.29..0.9.29130130.130 | by Benjamin Buchfink <buchfink@gmail.com>. | by Benjamin Buchfink <buchfink@gmail.com> | by Benjamin Buchfink <buchfink@gmail.com>
+130130
+
+Licensed under the GNU GPL <https://www.gnu.org/licenses/gpl.txt> | by Benjamin Buchfink <buchfink@gmail.com> | by Benjamin Buchfink <buchfink@gmail.com>Licensed under the GNU GPL <https://www.gnu.org/licenses/gpl.txt>
+
+Licensed under the GNU GPL <https://www.gnu.org/licenses/gpl.txt>
+
+Licensed under the GNU GPL <https://www.gnu.org/licenses/gpl.txt>Check http://github.com/bbuchfink/diamond for updates.
+
+Check http://github.com/bbuchfink/diamond for updates.Licensed under the GNU GPL <https://www.gnu.org/licenses/gpl.txt>
+Check http://github.com/bbuchfink/diamond for updates.
+
+
+Check http://github.com/bbuchfink/diamond for updates.
+
+Check http://github.com/bbuchfink/diamond for updates.
+
+[2020-01-22 10:33:21] MEROPS peptidase searching is done
+[2020-01-22 10:33:22] METABOLIC table has been generated
+[2020-01-22 10:33:22] Drawing element cycling diagrams...
+Loading required package: shape
+[2020-01-22 10:33:24] Drawing element cycling diagrams finished
+
+
+
+# ls -latr KEGG_identifier_result/ | tail -5
+-rw-r--r-- 1 root root  94373 Jan 22 10:30 GCA_003431325.1_ASM343132v1_genomic.hits.txt
+drwxr-xr-x 2 root root   4096 Jan 22 10:30 .
+-rw-r--r-- 1 root root  82859 Jan 22 10:30 GCA_005222525.1_ASM522252v1_genomic.result.txt
+-rw-r--r-- 1 root root 100773 Jan 22 10:30 GCA_005222525.1_ASM522252v1_genomic.hits.txt
+drwxr-xr-x 7 root root   4096 Jan 22 10:33 ..
+
+# ls -latr R_output/ | tail -5
+-rw-r--r-- 1 root root  6998 Jan 22 10:33 GCA_005222525.1_ASM522252v1_genomic.draw_sulfur_cycle_single.pdf
+-rw-r--r-- 1 root root 20507 Jan 22 10:33 GCA_005222525.1_ASM522252v1_genomic.draw_carbon_cycle_single.pdf
+drwxr-xr-x 2 root root  4096 Jan 22 10:33 .
+-rw-r--r-- 1 root root 13234 Jan 22 10:33 GCA_005222525.1_ASM522252v1_genomic.draw_other_cycle_single.pdf
+drwxr-xr-x 7 root root  4096 Jan 22 10:33 ..
+
+
+# xpdf R_output/GCA_003431325.1_ASM343132v1_genomic.draw_sulfur_cycle_single.pdf
+

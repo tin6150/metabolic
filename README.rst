@@ -6,15 +6,15 @@ This project
 is the containerization of AnantharamanLab/METABOLIC
 ( https://github.com/AnantharamanLab/METABOLIC ).
 
-Starting the Metabolic container
-================================
+Quick Start for interactive use of Metabolic via container 
+==========================================================
 
 ::
 
 	singularity pull --name metabolic.sif shub://tin6150/metabolic
 	./metabolic.sif
 	-or-
-	sudo docker run  -it -v $HOME:/home tin6150/metabolic
+	docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME:/tmp/home  tin6150/metabolic
 
 The above commands will drop you into a shell inside the container, 
 where the metabolic program and all its dependencies are installed.
@@ -25,7 +25,7 @@ The metabolic software is installed under /opt/METABOLIC
 /usr/bin/xpdf could be used to view the generated PDF.
 
 
-REMEMBER: content stored INSIDE the container is ephemeral and lost when container is restarted.  Save your data to a mounted volume shared with the host, eg $HOME
+REMEMBER: content stored INSIDE the container is ephemeral and lost when container is restarted.  Save your data to a mounted volume shared with the host, eg $HOME, or scp the data out before closing/ending the container session.
 
 
 Example Run:  METABOLIC-G.pl
@@ -57,6 +57,28 @@ As batch job (eg in a slurm script), use:
 	singularity exec metabolic.sif perl /opt/METABOLIC/METABOLIC-G.pl -t 34 -in-gn $BASE/5_genomes_test/Genome_files -o $BASE/metabolic_out -m /opt/METABOLIC/
 
 
+Starting the Metabolic container via Docker
+===========================================
+
+Interactive run (note that content are not saved into the image unless one run `docker commit ...`:
+
+:: 
+
+	docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME:/tmp/home  tin6150/metabolic
+	cd /opt/METABOLIC
+	perl /opt/METABOLIC/METABOLIC-G.pl -t 34 -in-gn ./5_genomes_test/Genome_files -o /tmp/home/metabolic_out -m /opt/METABOLIC/
+	xpdf /tmp/home/metabolic_out/R_output/GCA_005222525.1_ASM522252v1_genomic.draw_nitrogen_cycle_single.pdf
+	# scp is also available to copy files out
+	# Above depends on root being able to write to $HOME/metabolic_out.  change -v to other dir as needed.
+
+Non interactive, scriptable run:
+
+	The following should work in theory, but some kernel issues is preventing -v and --entrypoint in both working at the same time
+	May have to wait till kernel update...
+	sudo docker run  -v $HOME:/tmp/home --entrypoint "perl /opt/METABOLIC/METABOLIC-G.pl -t 34 -in-gn /5_genomes_test/Genome_files -o /tmp/home/metabolic_out -m /opt/METABOLIC/" tin6150/metabolic 
+
+
+
 Info about the Metabolic container
 ==================================
 
@@ -70,6 +92,10 @@ A docker container is build first, done as 3 cascading parts:
     - run_setup.sh has been run, software is installed under /opt/METABOLIC .
     - 5_genomes_test has been extracted under this directory as well, but dir by default is not writable.
 
+4. gtdbtk binary was installed, but not the database.  
+   To use it, see "DB for gtdbtk" below.
+
+5. /usr/bin/xpdf and /usr/bin/scp are available to view resulting pdf or copy data out of the container, if needed.
 
 The last docker container is then converted into a Singularity container for use by end user without priviledged access.
 
@@ -89,13 +115,8 @@ Build Commands
         docker build -t tin6150/base4metabolic  -f Dockerfile.base       .  | tee Dockerfile.base.log 
         docker build -t tin6150/perl4metabolic  -f Dockerfile.perl       .  | tee Dockerfile.perl.log 
         docker build -t tin6150/metabolic       -f Dockerfile.metabolic  .  | tee Dockerfile.log 
-        -or-
-        docker build -t tin6150/metabolic0      -f Dockerfile            .  | tee Dockerfile.monolithic.log 
-        -or-
-        # alternate starting point, may become independent container if can get docker hub to add new repo...
-        docker build -t tin6150/bioperl         -f Dockerfile.bioperl    .  | tee Dockerfile.bioperl.log 
 
-        THEN
+        Optional conversion to Singularity to run in HPC environment:
         sudo /opt/singularity-2.6/bin/singularity build --writable metabolic_b1219a.img Singularity 2>&1  | tee singularity_build.log
         # (see additional comments in the Singularity file)
 
@@ -140,3 +161,9 @@ tar xzf gtdbtk_r89_data.tar.gz
 See https://github.com/Ecogenomics/GTDBTk for links to newer db
 
 
+
+ATTRIBUTION
+===========
+
+I (tin (at) lbl.gov) only packaged METABOLIC into container to support a user request.
+The source of the METABOLIC software is at https://github.com/AnantharamanLab/METABOLIC

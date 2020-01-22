@@ -1,9 +1,13 @@
 # Main Dockerfile for creating Metabolic in a container
-# see https://github.com/AnantharamanLab/METABOLIC
+# this is an old monolithic version
+# it takes too long to build in the docker-hub and never finishes
+# local build should work, but it no longer has all the updates done Dockerfile.metabolic
+# docker build -t tin6150/metabolic0 -f Dockerfile .  | tee Dockerfile.monolithic.log 
+# origin/source: https://github.com/AnantharamanLab/METABOLIC
 
 #####################
 #####################
-#### SPLIT ##########  and somewhat obsolete now
+#### very OLD NOW ###
 #####################
 #####################
 
