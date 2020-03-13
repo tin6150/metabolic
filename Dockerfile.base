@@ -11,8 +11,6 @@
 FROM r-base:3.6.2
 MAINTAINER Tin (at) LBL.gov
 
-#RUN  echo "Building ... this isn't likely working yet" 
-
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=PST8PDT
 

@@ -2,7 +2,6 @@ Bootstrap: docker
 From: tin6150/metabolic
 
 # Singularity def, wrap around docker tin6150/metabolic
-# but may not work yet, cuz somehow docker hub isn't allowing creating new repos at this time.
 
 %post
 	touch "_ROOT_DIR_OF_CONTAINER_" ## also is "_CURRENT_DIR_CONTAINER_BUILD" 

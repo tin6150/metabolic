@@ -9,8 +9,6 @@
 FROM tin6150/base4metabolic
 MAINTAINER Tin (at) LBL.gov
 
-#RUN  echo "Building ... this isn't likely working yet" 
-
 #ARG TZ="America/Denver"
 ARG TZ="America/Los_Angeles"
 ARG DEBIAN_FRONTEND=noninteractive
