@@ -1,7 +1,7 @@
 # Dockerfile for creating Metabolic in a container.  part 3, final dependenices and compile app
 # Metabolic source: https://github.com/AnantharamanLab/METABOLIC
 # Dockerfile github: https://github.com/tin6150/metabolic/blob/master/Dockerfile.metabolic
-# git branch 2.0 was for the build of metabolic 2.0 (circa Jan 2020)
+# git branch 3.0 was for the build of metabolic 3.0 (circa Apr 2020, zzc19890415)
 
 #FROM ubuntu:19.04
 #FROM r-base:3.6.2
@@ -19,8 +19,8 @@ ENV GTDBTK_DATA_PATH=/tmp/GTDBTK_DATA
 
 
 RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
-    echo "=========================================== " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
-    echo "Begin Dockerfile.metabolic build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
+    echo "============================================================ " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
+    echo "Begin Dockerfile.metabolic build process at (hostname/date): " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     hostname | tee -a _TOP_DIR_OF_CONTAINER_ ;\
     date     | tee -a _TOP_DIR_OF_CONTAINER_ ;\
 		echo "df -h at beginning of Docker.metabolic" | tee -a _TOP_DIR_OF_CONTAINER_ ;\
@@ -31,10 +31,10 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     test -d /opt/gitrepo/metabolic  || git clone https://github.com/tin6150/metabolic.git  ;\
     cd /opt/gitrepo/metabolic &&  git pull && cd -                                         ;\
     cd ../.. ;\
-    echo '========================================================'   ;\
+    echo '============================================================'   ;\
     echo "installing packages wget/sh"  | tee -a _TOP_DIR_OF_CONTAINER_   ;\
-    date | TZ=PST8PDT tee -a      _TOP_DIR_OF_CONTAINER_              ;\
-    echo '========================================================'   ;\
+    date   |                              tee -a _TOP_DIR_OF_CONTAINER_   ;\
+    echo '============================================================'   ;\
     mkdir -p Downloads &&  cd Downloads ;\
     wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda3.sh  ;\
     bash miniconda3.sh -b -p /opt/conda ;\
@@ -53,7 +53,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo '==================================================================' ;\
     echo '==================================================================' ;\
     echo "installing packages via conda"  | tee -a _TOP_DIR_OF_CONTAINER_     ;\
-    date | TZ=PST8PDT tee -a                       _TOP_DIR_OF_CONTAINER_     ;\
+    date | tee -a                                  _TOP_DIR_OF_CONTAINER_     ;\
     echo '==================================================================' ;\
     echo '==================================================================' ;\
     #/opt/conda/bin/conda config --add channels defaults ;\
@@ -71,7 +71,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
 RUN echo '========================================================'   ;\
     echo '========================================================'   ;\
     echo "compiling metabolic" | tee -a _TOP_DIR_OF_CONTAINER_        ;\
-    date | TZ=PST8PDT tee -a            _TOP_DIR_OF_CONTAINER_        ;\
+    date |            tee -a            _TOP_DIR_OF_CONTAINER_        ;\
     echo '========================================================'   ;\
     echo '========================================================'   ;\
 
@@ -108,7 +108,8 @@ RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
   && echo  "Build Info: Dockerfile 2020.0109.1830"  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Build Info: Dockerfile 2020.0109.2241 (hostname)"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Build Info: Dockerfile 2020.0406.1133"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Build Info: Dockerfile 2020.0406.1205 (hostname/date)"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 #ENV TZ America/Los_Angeles 
