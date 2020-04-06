@@ -1,6 +1,7 @@
 # Dockerfile for creating Metabolic in a container.  part 3, final dependenices and compile app
 # Metabolic source: https://github.com/AnantharamanLab/METABOLIC
 # Dockerfile github: https://github.com/tin6150/metabolic/blob/master/Dockerfile.metabolic
+# git branch 2.0 was for the build of metabolic 2.0 (circa Jan 2020)
 
 #FROM ubuntu:19.04
 #FROM r-base:3.6.2
