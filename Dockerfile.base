@@ -2,7 +2,7 @@
 #
 # Metabolic source: https://github.com/AnantharamanLab/METABOLIC
 # Dockerfile github: https://github.com/tin6150/metabolic/blob/master/Dockerfile.base
-#
+# Probably no update needed from branch 2.0 to 3.0 (for metabolic 3.0, circa April 2020)
 
 
 #FROM cgrlab/sambamba
@@ -15,7 +15,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=PST8PDT
 
 RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
-    echo "Begin Dockerfile.base build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
+    echo "Begin Dockerfile.base build process at (hostname/date): " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     hostname | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     date     | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     # really weired.  git will just not get installed here 
@@ -43,7 +43,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
 
     echo '==================================================================' ;\
     echo "installing packages cran packages" | tee -a _TOP_DIR_OF_CONTAINER_  ;\
-    date | TZ=PST8PDT tee -a      _TOP_DIR_OF_CONTAINER_                      ;\
+    date |            tee -a      _TOP_DIR_OF_CONTAINER_                      ;\
     echo '==================================================================' ;\
     Rscript --quiet -e 'install.packages("diagram",    repos = "http://cran.us.r-project.org")'    ;\
     Rscript --quiet -e 'install.packages("forcats",    repos = "http://cran.us.r-project.org")'    ;\
@@ -68,7 +68,7 @@ RUN     cd / \
   && echo  "Dockerfile.base 2020.0107.1248 (.deb for tidyverse )"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Dockerfile.base 2020.0109.1242 (git, bowtie2)"         >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Dockerfile.base 2020.0109.1830 (skip apt-utils)"       >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Dockerfile.base 2020.0109.2238 (hostname)"             >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.base 2020.0406.1150 (hostname/date)"        >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 # ENV TZ America/Los_Angeles 
