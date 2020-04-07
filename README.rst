@@ -1,20 +1,18 @@
 Metabolic
----------
+~~~~~~~~~
 
 This project 
 ( https://github.com/tin6150/metabolic.git )
 is the containerization of AnantharamanLab/METABOLIC
 ( https://github.com/AnantharamanLab/METABOLIC ).
 
-Quick Start for interactive use of Metabolic via container 
-==========================================================
+Quick Start for interactive use of Metabolic via Singularity container 
+======================================================================
 
 ::
 
 	singularity pull --name metabolic.sif shub://tin6150/metabolic
 	./metabolic.sif
-	-or-
-	docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME:/tmp/home  tin6150/metabolic
 
 The above commands will drop you into a shell inside the container, 
 where the metabolic program and all its dependencies are installed.
@@ -24,17 +22,9 @@ The metabolic software is installed under /opt/METABOLIC
 5_genomes_test has been extracted under this directory as well.
 /usr/bin/xpdf could be used to view the generated PDF.
 
-
-REMEMBER: content stored INSIDE the container is ephemeral and lost when container is restarted.  Save your data to a mounted volume shared with the host, eg $HOME, or scp the data out before closing/ending the container session.
-
-
-Example Run:  METABOLIC-G.pl
-============================
-
-For interactive run, shell into the container (eg ./metabolic.sif), then run:
+To invoke METABOLIC-G.pl from the interactive shell inside the container:
 
 ::
-
 
 	cd $HOME    
 	cd /global/scratch/$USER   # please use luster scratch dir if avail
@@ -47,14 +37,17 @@ For interactive run, shell into the container (eg ./metabolic.sif), then run:
 	# -o [METABOLIC output folder] 
 	# -m your/path/to/put/METABOLIC-folder
 
+REMEMBER: content stored INSIDE the container is ephemeral and lost when container is restarted.  Save your data to a mounted volume shared with the host, eg $HOME, or scp the data out before closing/ending the container session.
 
 
-As batch job (eg in a slurm script), use:
+Running Metabolics as batch job (eg in a slurm script)
+------------------------------------------------------
 
 ::
 
 	export BASE=/global/scratch/$USER
 	singularity exec metabolic.sif perl /opt/METABOLIC/METABOLIC-G.pl -t 34 -in-gn $BASE/5_genomes_test/Genome_files -o $BASE/metabolic_out -m /opt/METABOLIC/
+
 
 
 Starting the Metabolic container via Docker
@@ -139,7 +132,7 @@ Debug runs/tests
 container size
 ==============
 
-singularity.sif is  5.9 GB      # Singularity 3.2 download from hub
+singularity.sif is  5.9 GB      # Download by Singularity Hub Singularity 3.2 
 singularity.img is 21 GB        # 2.6 build on bofh
 docker image ls for metabolic is 16.9 GB (seems to have grown a lot since gtdbtk, but did not include DB).
 docker image ls for perl4metabolic is 1.83 GB.
@@ -165,5 +158,6 @@ See https://github.com/Ecogenomics/GTDBTk for links to newer db
 ATTRIBUTION
 ===========
 
-I (tin (at) lbl.gov) only packaged METABOLIC into container to support a user request.
+I [tin (at) lbl.gov] only packaged METABOLIC into container to support a user request.
 The source of the METABOLIC software is at https://github.com/AnantharamanLab/METABOLIC
+

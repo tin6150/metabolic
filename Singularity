@@ -1,7 +1,24 @@
+# Singularity definition file for METABOLIC, wrap around docker tin6150/metabolic
+# vim: nosmartindent tabstop=4 noexpandtab shiftwidth=4
+
 Bootstrap: docker
 From: tin6150/metabolic
 
-# Singularity def, wrap around docker tin6150/metabolic
+# manual build cmd (singularity 3.2): 
+# sudo SINGULARITY_TMPDIR=/global/scratch/tin/tmp singularity build --sandbox ./metabolic.sif Singularity 2>&1  | tee singularity_build.log
+# sudo SINGULARITY_TMPDIR=/dev/shm singularity build --sandbox ./metabolic.sif Singularity 2>&1  | tee singularity_build.log
+#
+# manual build cmd (singularity 2.6): 
+# sudo /opt/singularity-2.6/bin/singularity build --writable metabolic_b1219a.img Singularity 2>&1  | tee singularity_build.log
+#
+# eg run cmd on bofh w/ singularity 2.6.2:
+#      /opt/singularity-2.6/bin/singularity run     metabolic_b1219a.img
+# sudo /opt/singularity-2.6/bin/singularity exec -w metabolic_b1219a.img /bin/tcsh
+
+# eg run cmd on lrc, singularity 2.6-dist (maybe locally compiled)
+#      singularity shell -w -B /global/scratch/tin ./metabolic_b1219a.img
+#
+# dirac1 has singularity singularity-3.2.1-1.el7.x86_64 
 
 %post
 	touch "_ROOT_DIR_OF_CONTAINER_" ## also is "_CURRENT_DIR_CONTAINER_BUILD" 
@@ -52,25 +69,7 @@ From: tin6150/metabolic
 %help
     Metabolic from https://github.com/AnantharamanLab/METABOLIC
     
-# Pull and run via singularity-hub:
-# singularity pull shub://tin6150/metabolic
-# singularity pull --name metabolic_b1219.sif shub://tin6150/metabolic
-# singularity shell metabolic.sif
+	Pull and run via singularity-hub:
+	singularity pull --name metabolic.sif shub://tin6150/metabolic
+	singularity shell metabolic.sif
 
-# manual build cmd (singularity 3.2): 
-# sudo SINGULARITY_TMPDIR=/global/scratch/tin/tmp singularity build --sandbox ./metabolic.sif Singularity 2>&1  | tee singularity_build.log
-# sudo SINGULARITY_TMPDIR=/dev/shm singularity build --sandbox ./metabolic.sif Singularity 2>&1  | tee singularity_build.log
-#
-# manual build cmd (singularity 2.6): 
-# sudo /opt/singularity-2.6/bin/singularity build --writable metabolic_b1219a.img Singularity 2>&1  | tee singularity_build.log
-#
-# eg run cmd on bofh w/ singularity 2.6.2:
-#      /opt/singularity-2.6/bin/singularity run     metabolic_b1219a.img
-# sudo /opt/singularity-2.6/bin/singularity exec -w metabolic_b1219a.img /bin/tcsh
-
-# eg run cmd on lrc, singularity 2.6-dist (maybe locally compiled)
-#      singularity shell -w -B /global/scratch/tin ./metabolic_b1219a.img
-#
-# dirac1 has singularity singularity-3.2.1-1.el7.x86_64 
-
-# vim: nosmartindent tabstop=4 noexpandtab shiftwidth=4
