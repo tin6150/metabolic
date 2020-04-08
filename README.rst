@@ -65,6 +65,7 @@ Interactive run (note that content are not saved into the image unless one run `
 	# Above depends on root being able to write to $HOME/metabolic_out.  change -v to other dir as needed.
 
 Non interactive, scriptable run:
+::
 
 	The following should work in theory, but some kernel issues is preventing -v and --entrypoint in both working at the same time
 	May have to wait till kernel update...
@@ -105,13 +106,13 @@ Build Commands
 
 ::
 
-        docker build -t tin6150/base4metabolic  -f Dockerfile.base       .  | tee Dockerfile.base.log 
-        docker build -t tin6150/perl4metabolic  -f Dockerfile.perl       .  | tee Dockerfile.perl.log 
-        docker build -t tin6150/metabolic       -f Dockerfile.metabolic  .  | tee Dockerfile.log 
+		docker build -t tin6150/base4metabolic  -f Dockerfile.base       .  | tee Dockerfile.base.log 
+		docker build -t tin6150/perl4metabolic  -f Dockerfile.perl       .  | tee Dockerfile.perl.log 
+		docker build -t tin6150/metabolic       -f Dockerfile.metabolic  .  | tee Dockerfile.log 
 
-        Optional conversion to Singularity to run in HPC environment:
-        sudo /opt/singularity-2.6/bin/singularity build --writable metabolic_b1219a.img Singularity 2>&1  | tee singularity_build.log
-        # (see additional comments in the Singularity file)
+		Optional conversion to Singularity to run in HPC environment:
+		sudo /opt/singularity-2.6/bin/singularity build --writable metabolic_b1219a.img Singularity 2>&1  | tee singularity_build.log
+		# (see additional comments in the Singularity file)
 
 
 
@@ -128,10 +129,10 @@ Debug runs/tests
         docker run  -it -v $HOME:/home/tin tin6150/base4metabolic
         docker run  -it -v $HOME:/home/tin tin6150/perl4metabolic
 
-		checking PERL5LIB @INC
-		env -i perl -V    # ignores the PERL5LIB env var
-		env    perl -V
-		both should return the same output, but if root's env got inherited, clear it with something like ``export PERL5LIB=''``
+        checking PERL5LIB @INC
+        env -i perl -V    # ignores the PERL5LIB env var
+        env    perl -V
+        both should return the same output, but if root's env got inherited, clear it with something like ``export PERL5LIB=''``
 
 container size
 ==============
@@ -166,3 +167,6 @@ ATTRIBUTION
 I [tin (at) lbl.gov] only packaged METABOLIC into container to support a user request.
 The source of the METABOLIC software is at https://github.com/AnantharamanLab/METABOLIC
 
+
+
+# vim: tabstop=4 noexpandtab paste
