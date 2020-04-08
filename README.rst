@@ -42,6 +42,7 @@ Running Metabolics as batch job (eg in a slurm script)
 ------------------------------------------------------
 
 ::
+
 	export BASE=/global/scratch/$USER ;
 	singularity exec metabolic.sif perl /opt/METABOLIC/METABOLIC-G.pl -t 34 -in-gn $BASE/5_genomes_test/Genome_files -o $BASE/metabolic_out -m /opt/METABOLIC/
 
@@ -162,4 +163,4 @@ ATTRIBUTION
 
 
 
-..# vim: tabstop=4 noexpandtab paste
+.. # vim: tabstop=4 noexpandtab paste
