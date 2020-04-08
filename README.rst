@@ -53,11 +53,11 @@ Running Metabolics as batch job (eg in a slurm script)
 Starting the Metabolic container via Docker
 ===========================================
 
-Interactive run (note that content are not saved into the image unless one run `docker commit ...`:
+Interactive run (note that content are not saved into the image unless one run ``docker commit ...``:
 
 :: 
 
-	docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME:/tmp/home  tin6150/metabolic
+	docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME:/tmp/home --user=$(id -u):$(id -g)  tin6150/metabolic
 	cd /opt/METABOLIC
 	perl /opt/METABOLIC/METABOLIC-G.pl -t 34 -in-gn ./5_genomes_test/Genome_files -o /tmp/home/metabolic_out -m /opt/METABOLIC/
 	xpdf /tmp/home/metabolic_out/R_output/GCA_005222525.1_ASM522252v1_genomic.draw_nitrogen_cycle_single.pdf
@@ -128,15 +128,19 @@ Debug runs/tests
         docker run  -it -v $HOME:/home/tin tin6150/base4metabolic
         docker run  -it -v $HOME:/home/tin tin6150/perl4metabolic
 
+		checking PERL5LIB @INC
+		env -i perl -V    # ignores the PERL5LIB env var
+		env    perl -V
+		both should return the same output, but if root's env got inherited, clear it with something like ``export PERL5LIB=''``
 
 container size
 ==============
 
-singularity.sif is  5.9 GB      # Download by Singularity Hub Singularity 3.2 
-singularity.img is 21 GB        # 2.6 build on bofh
-docker image ls for metabolic is 16.9 GB (seems to have grown a lot since gtdbtk, but did not include DB).
-docker image ls for perl4metabolic is 1.83 GB.
-12 GB  is used by /opt/METABOLIC/kofam_database/
+- singularity.sif is  6 GB # Download by Singularity Hub Singularity 3.2 
+- singularity.img is 21 GB # 2.6 build on bofh
+- docker image ls for metabolic is 16.9 GB (seems to have grown a lot since gtdbtk, but did not include DB).
+- docker image ls for perl4metabolic is 1.83 GB.
+- 12 GB  is used by /opt/METABOLIC/kofam_database/
 
 above do not include the gtdbtk DB
 
@@ -146,12 +150,13 @@ DB for gtdbtk
 =============
 
 gtdbtk maybe optional.  when running it, may need a DB.  setup as:
+:: 
 
-GTDBTK_DATA_PATH = /tmp/GTDBTK_DATA
-cd $GTDBTK_DATA_PATH
-wget https://data.ace.uq.edu.au/public/gtdb/data/releases/release89/89.0/gtdbtk_r89_data.tar.gz
-tar xzf gtdbtk_r89_data.tar.gz
-See https://github.com/Ecogenomics/GTDBTk for links to newer db
+	GTDBTK_DATA_PATH = /tmp/GTDBTK_DATA
+	cd $GTDBTK_DATA_PATH
+	wget https://data.ace.uq.edu.au/public/gtdb/data/releases/release89/89.0/gtdbtk_r89_data.tar.gz
+	tar xzf gtdbtk_r89_data.tar.gz
+	See https://github.com/Ecogenomics/GTDBTk for links to newer db
 
 
 
