@@ -22,9 +22,7 @@ The metabolic software is installed under /opt/METABOLIC
 5_genomes_test has been extracted under this directory as well.
 /usr/bin/xpdf could be used to view the generated PDF.
 
-To invoke METABOLIC-G.pl from the interactive shell inside the container:
-
-::
+To invoke METABOLIC-G.pl from the interactive shell inside the container::
 
 	cd $HOME    
 	cd /global/scratch/$USER   # please use luster scratch dir if avail
@@ -44,8 +42,7 @@ Running Metabolics as batch job (eg in a slurm script)
 ------------------------------------------------------
 
 ::
-
-	export BASE=/global/scratch/$USER
+	export BASE=/global/scratch/$USER ;
 	singularity exec metabolic.sif perl /opt/METABOLIC/METABOLIC-G.pl -t 34 -in-gn $BASE/5_genomes_test/Genome_files -o $BASE/metabolic_out -m /opt/METABOLIC/
 
 
@@ -53,9 +50,7 @@ Running Metabolics as batch job (eg in a slurm script)
 Starting the Metabolic container via Docker
 ===========================================
 
-Interactive run (note that content are not saved into the image unless one run ``docker commit ...``:
-
-:: 
+Interactive run (note that content are not saved into the image unless one run ``docker commit ...``::
 
 	docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME:/tmp/home --user=$(id -u):$(id -g)  tin6150/metabolic
 	cd /opt/METABOLIC
@@ -64,8 +59,7 @@ Interactive run (note that content are not saved into the image unless one run `
 	# scp is also available to copy files out
 	# Above depends on root being able to write to $HOME/metabolic_out.  change -v to other dir as needed.
 
-Non interactive, scriptable run:
-::
+Non interactive, scriptable run::
 
 	The following should work in theory, but some kernel issues is preventing -v and --entrypoint in both working at the same time
 	May have to wait till kernel update...
@@ -132,7 +126,7 @@ Debug runs/tests
         checking PERL5LIB @INC
         env -i perl -V    # ignores the PERL5LIB env var
         env    perl -V
-        both should return the same output, but if root's env got inherited, clear it with something like ``export PERL5LIB=''``
+        both should return the same output, but if root's env got inherited, clear it with something like export PERL5LIB=''
 
 container size
 ==============
@@ -150,8 +144,7 @@ above do not include the gtdbtk DB
 DB for gtdbtk 
 =============
 
-gtdbtk maybe optional.  when running it, may need a DB.  setup as:
-:: 
+gtdbtk maybe optional.  when running it, may need a DB.  setup as:: 
 
 	GTDBTK_DATA_PATH = /tmp/GTDBTK_DATA
 	cd $GTDBTK_DATA_PATH
@@ -164,9 +157,9 @@ gtdbtk maybe optional.  when running it, may need a DB.  setup as:
 ATTRIBUTION
 ===========
 
-I [tin (at) lbl.gov] only packaged METABOLIC into container to support a user request.
-The source of the METABOLIC software is at https://github.com/AnantharamanLab/METABOLIC
+* I [tin (at) lbl.gov] only packaged METABOLIC into container to support a user request.
+* The source of the METABOLIC software is at https://github.com/AnantharamanLab/METABOLIC
 
 
 
-# vim: tabstop=4 noexpandtab paste
+..# vim: tabstop=4 noexpandtab paste
