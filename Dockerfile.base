@@ -8,7 +8,8 @@
 #FROM cgrlab/sambamba
 #FROM conda/miniconda3  # Debian, not ubuntu, can't find R!
 #FROM ubuntu:19.04
-FROM r-base:3.6.2
+##FROM r-base:3.6.2
+FROM r-base:4.0.2
 MAINTAINER Tin (at) LBL.gov
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -24,9 +25,9 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     #apt-get -y --force-yes --quiet install apt-utils      ;\
     echo "installing packages via apt"       | tee -a _TOP_DIR_OF_CONTAINER_               ;\
     apt-get update ;\
-    apt-get -y --force-yes --quiet install perl-base perl-doc perl-doc-html r-base hmmer prodigal bamtools python file bash tcsh zsh less vim bc tmux screen xterm xpdf ;\
+    apt-get -y --force-yes --quiet install r-base hmmer prodigal bamtools python file bash tcsh zsh less vim bc tmux screen xterm xpdf ;\
     apt-get -y --force-yes --quiet install libxml2 libtinfo5 libtinfo6 diamond-aligner     ;\
-    apt-get -y --force-yes --quiet install environment-modules libterm-shellui-perl cpanoutdated    ;\
+    apt-get -y --force-yes --quiet install environment-modules ;\
     apt-get -y --force-yes --quiet install libcurl4-openssl-dev libxml2-dev libssl-dev httrack libhttrack-dev libhttrack2 harvest-tools  ;\
     apt-get -y --quiet install bowtie2  ;\
     echo "git cloning the repo for reference/tracking" | tee -a _TOP_DIR_OF_CONTAINER_ ;\
@@ -52,13 +53,22 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     Rscript --quiet -e 'install.packages("rmarkdown",  repos = "http://cran.us.r-project.org")'    ;\
     Rscript --quiet -e 'install.packages("reprex",     repos = "http://cran.us.r-project.org")'    ;\
     Rscript --quiet -e 'install.packages("tidyverse",  repos = "http://cran.us.r-project.org")'    ;\
-    Rscript --quiet -e 'install.packages("stringi",    repos = "http://cran.us.r-project.org")'    ;\
     Rscript --quiet -e 'install.packages("ggthemes",   repos = "http://cran.us.r-project.org")'    ;\
     Rscript --quiet -e 'install.packages("ggalluvial", repos = "http://cran.us.r-project.org")'    ;\
     Rscript --quiet -e 'install.packages("reshape2",   repos = "http://cran.us.r-project.org")'    ;\
     Rscript --quiet -e 'install.packages("ggraph",     repos = "http://cran.us.r-project.org")'    ;\
     echo $? > Rscript.exit.code   ;\
     Rscript --quiet -e 'library()' > R_library_list.out.txt    ;\
+    # 4.0 addition
+    Rscript --quiet -e 'install.packages("pdftools",   repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --quiet -e 'install.packages("igraph",     repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --quiet -e 'install.packages("tidygraph",  repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --quiet -e 'install.packages("stringr",    repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --quiet -e 'install.packages("plyr",       repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --quiet -e 'install.packages("dplyr",      repos = "http://cran.us.r-project.org")'    ;\
+    Rscript --quiet -e 'install.packages("openxlsx",   repos = "http://cran.us.r-project.org")'    ;\
+    # no longer asked for in 4.0 doc, but leaving in place if no conflict
+    Rscript --quiet -e 'install.packages("stringi",    repos = "http://cran.us.r-project.org")'    ;\
     echo 'last line of RUN block in Dockerbuild without continuation :)'
 
 RUN     cd / \
@@ -68,8 +78,8 @@ RUN     cd / \
   && echo  "Dockerfile.base 2020.0109.1242 (git, bowtie2)"         >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Dockerfile.base 2020.0109.1830 (skip apt-utils)"       >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Dockerfile.base 2020.0406.1150 (hostname/date)"        >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Dockerfile.base 2020.0928      (perl-doc)"             >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Grand Finale"
+  && echo  "Dockerfile.base 2020.0929      (R 3.6.3 + pkgs)"       >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.base Grand Finale"
 
 # ENV TZ America/Los_Angeles 
 # best to leave user choose Time Zone
