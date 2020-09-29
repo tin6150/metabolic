@@ -2,9 +2,8 @@
 # Metabolic source: https://github.com/AnantharamanLab/METABOLIC
 # Dockerfile github: https://github.com/tin6150/metabolic/blob/master/Dockerfile.metabolic
 # git branch 3.0 was for the build of metabolic 3.0 (circa Apr 2020, zzc19890415)
+# git branch 4.0 was for the build of metabolic 4.0 (circa Sep 2020, 5acb686)
 
-#FROM ubuntu:19.04
-#FROM r-base:3.6.2
 FROM tin6150/perl4metabolic
 MAINTAINER Tin (at) LBL.gov
 
@@ -97,19 +96,6 @@ RUN echo '========================================================'   ;\
     mkdir slowdata ;\
     echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)' 
 
-# below can be removed once Dockerfile.base has executed a new build.
-RUN     apt-get -y --force-yes --quiet install  xpdf   libxml2 libtinfo5 libtinfo6  diamond-aligner ;\
-        cd /usr/bin && ln -s diamond-aligner diamond && cd - ;\ 
-        PERL_MM_USE_DEFAULT=1 cpan -fi Array/Split.pm  ;\
-        PERL_MM_USE_DEFAULT=1 cpan -fi Data/OptList.pm  ;\
-        PERL_MM_USE_DEFAULT=1 cpan -fi Parallel/ForkManager.pm  ;\
-
-        echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)' 
-
-# tmp, added to Docker.base, but didn't want to wait to rerun the whole stack
-RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
-	apt-get update ;\
-  apt-get -y --force-yes --quiet install perl-base perl-doc perl-doc-html
 
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
@@ -117,7 +103,7 @@ RUN     cd / \
   && echo  "Build Info: Dockerfile 2020.0109.1830"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Build Info: Dockerfile 2020.0406.1133"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Build Info: Dockerfile 2020.0406.1205 (hostname/date)"  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Build Info: Dockerfile 2020.0928.1625 (v4.0, perl-doc)" >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Build Info: Dockerfile 2020.0928.1625 (metabolic 4.0, R 4.0.2, perl-doc)" >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 #ENV TZ America/Los_Angeles 

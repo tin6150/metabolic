@@ -18,6 +18,8 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "Begin Dockerfile.perl build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     hostname | tee -a       _TOP_DIR_OF_CONTAINER_        ;\
     date     | tee -a       _TOP_DIR_OF_CONTAINER_        ;\
+		apt-get -y --quiet update                             ;\
+		apt-get -y --force-yes --quiet install perl-base perl-doc perl-doc-html libterm-shellui-perl cpanoutdated ;\
 		apt-get -y --quiet install git                        ;\
     test -d /opt/gitrepo  || mkdir -p /opt/gitrepo        ;\
     cd      /opt/gitrepo  ;\
@@ -43,6 +45,8 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     PERL_MM_USE_DEFAULT=1 cpan -fi Array/Split.pm ;\
     PERL_MM_USE_DEFAULT=1 cpan -fi Data/OptList.pm  ;\  
     PERL_MM_USE_DEFAULT=1 cpan -fi Parallel/ForkManager.pm  ;\  
+    # 4.0 addition:
+    PERL_MM_USE_DEFAULT=1 cpan -fi POSIX                               ;\
 
     echo '==================================================================' ;\
     echo '==================================================================' ;\
@@ -70,9 +74,8 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Dockerfile.perl 2019.1225.1225"  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Dockerfile.perl 2020.0109.2039 (hostname)"  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Grand Finale"
+  && echo  "Dockerfile.perl 2020.0929 (perl os pkg, perl-doc)"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.perl Grand Finale "
 
 # ENV TZ America/Los_Angeles  
 # ENV TZ could be changed/overwritten by container's /etc/csh.cshrc
