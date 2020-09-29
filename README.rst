@@ -48,10 +48,25 @@ Running Metabolics as batch job (eg in a slurm script)
 
 
 
-Starting the Metabolic container via Docker
-===========================================
+Starting the Metabolic v4.0 container via Docker
+================================================
 
-Interactive run (note that content are not saved into the image unless one run ``docker commit ...``::
+Interactive run (note that content in container are ephemeral.  saving kinda work if you use ``docker commit ...``::
+
+	cd METABOLIC; mkdir temp; tar xfz ~/Downloads/5_genomes_test.tgz
+	docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v "$PWD":/tmp/home --user=$(id -u):$(id -g)  tin6150/metabolic:4.0
+	perl METABOLIC-G.pl -help
+	perl /opt/METABOLIC/METABOLIC-G.pl -in-gn /tmp/home/5_genomes_test/Genome_files -o /tmp/home/metabolic_out 
+
+Non interactive, scriptable run::
+
+	docker run  -v "$PWD":/tmp/home --entrypoint "perl /opt/METABOLIC/METABOLIC-G.pl -t 34 -in-gn /tmp/home/5_genomes_test/Genome_files -o /tmp/home/metabolic_out" tin6150/metabolic:4.0
+
+
+Starting the Metabolic v3.0 container via Docker
+================================================
+
+Interactive run (note that content in container are ephemeral.  saving kinda work if you use ``docker commit ...``::
 
 	docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v $HOME:/tmp/home --user=$(id -u):$(id -g)  tin6150/metabolic
 	cd /opt/METABOLIC
@@ -64,7 +79,7 @@ Non interactive, scriptable run::
 
 	The following should work in theory, but some kernel issues is preventing -v and --entrypoint in both working at the same time
 	May have to wait till kernel update...
-	sudo docker run  -v $HOME:/tmp/home --entrypoint "perl /opt/METABOLIC/METABOLIC-G.pl -t 34 -in-gn /5_genomes_test/Genome_files -o /tmp/home/metabolic_out -m /opt/METABOLIC/" tin6150/metabolic 
+	sudo docker run  -v $HOME:/tmp/home --entrypoint "perl /opt/METABOLIC/METABOLIC-G.pl -t 34 -in-gn /5_genomes_test/Genome_files -o /tmp/home/metabolic_out -m /opt/METABOLIC/" tin6150/metabolic
 
 
 

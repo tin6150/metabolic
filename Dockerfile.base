@@ -24,7 +24,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     #apt-get -y --force-yes --quiet install apt-utils      ;\
     echo "installing packages via apt"       | tee -a _TOP_DIR_OF_CONTAINER_               ;\
     apt-get update ;\
-    apt-get -y --force-yes --quiet install perl-base r-base hmmer prodigal bamtools python file bash tcsh zsh less vim bc tmux screen xterm xpdf ;\
+    apt-get -y --force-yes --quiet install perl-base perl-doc perl-doc-html r-base hmmer prodigal bamtools python file bash tcsh zsh less vim bc tmux screen xterm xpdf ;\
     apt-get -y --force-yes --quiet install libxml2 libtinfo5 libtinfo6 diamond-aligner     ;\
     apt-get -y --force-yes --quiet install environment-modules libterm-shellui-perl cpanoutdated    ;\
     apt-get -y --force-yes --quiet install libcurl4-openssl-dev libxml2-dev libssl-dev httrack libhttrack-dev libhttrack2 harvest-tools  ;\
@@ -59,7 +59,6 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     Rscript --quiet -e 'install.packages("ggraph",     repos = "http://cran.us.r-project.org")'    ;\
     echo $? > Rscript.exit.code   ;\
     Rscript --quiet -e 'library()' > R_library_list.out.txt    ;\
-
     echo 'last line of RUN block in Dockerbuild without continuation :)'
 
 RUN     cd / \
@@ -69,6 +68,7 @@ RUN     cd / \
   && echo  "Dockerfile.base 2020.0109.1242 (git, bowtie2)"         >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Dockerfile.base 2020.0109.1830 (skip apt-utils)"       >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Dockerfile.base 2020.0406.1150 (hostname/date)"        >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.base 2020.0928      (perl-doc)"             >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 # ENV TZ America/Los_Angeles 
