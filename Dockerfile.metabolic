@@ -106,12 +106,18 @@ RUN     apt-get -y --force-yes --quiet install  xpdf   libxml2 libtinfo5 libtinf
 
         echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)' 
 
+# tmp, added to Docker.base, but didn't want to wait to rerun the whole stack
+RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
+	apt-get update ;\
+  apt-get -y --force-yes --quiet install perl-base perl-doc perl-doc-html
+
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
   && echo  "Build Info: Dockerfile 2020.0109.1830"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Build Info: Dockerfile 2020.0406.1133"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Build Info: Dockerfile 2020.0406.1205 (hostname/date)"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Build Info: Dockerfile 2020.0928.1625 (v4.0, perl-doc)" >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 #ENV TZ America/Los_Angeles 
