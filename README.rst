@@ -55,6 +55,7 @@ Interactive run (note that content in container are ephemeral.  saving kinda wor
 
 	cd METABOLIC; mkdir temp; tar xfz ~/Downloads/5_genomes_test.tgz
 	docker run -it -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v "$PWD":/tmp/home --user=$(id -u):$(id -g)  tin6150/metabolic:4.0
+	cd /opt/METABOLIC
 	perl METABOLIC-G.pl -help
 	perl /opt/METABOLIC/METABOLIC-G.pl -in-gn /tmp/home/5_genomes_test/Genome_files -o /tmp/home/metabolic_out 
 
