@@ -100,10 +100,10 @@ RUN echo '========================================================'   ;\
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Build Info: Dockerfile 2020.0109.1830"  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Build Info: Dockerfile 2020.0406.1133"  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Build Info: Dockerfile 2020.0406.1205 (hostname/date)"  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Build Info: Dockerfile 2020.0928.1625 (metabolic 4.0, R 4.0.2, perl-doc)" >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Build Info: Dockerfile.metabolic 2020.0109.1830"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Build Info: Dockerfile.metabolic 2020.0406.1133"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Build Info: Dockerfile.metabolic 2020.0406.1205 (hostname/date)"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Build Info: Dockerfile.metabolic 2020.0928.1625 (metabolic 4.0, R 4.0.2, perl-doc)" >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 #ENV TZ America/Los_Angeles 

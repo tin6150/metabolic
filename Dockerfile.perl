@@ -19,7 +19,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     hostname | tee -a       _TOP_DIR_OF_CONTAINER_        ;\
     date     | tee -a       _TOP_DIR_OF_CONTAINER_        ;\
 		apt-get -y --quiet update                             ;\
-		apt-get -y --force-yes --quiet install perl-base perl-doc perl-doc-html libterm-shellui-perl cpanoutdated ;\
+		apt-get -y --force-yes --quiet install perl-base perl-doc perl-doc-html libterm-shellui-perl cpanoutdated hmmer libbio-samtools-perl ;\
 		apt-get -y --quiet install git                        ;\
     test -d /opt/gitrepo  || mkdir -p /opt/gitrepo        ;\
     cd      /opt/gitrepo  ;\
@@ -74,7 +74,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Dockerfile.perl 2020.0929 (perl os pkg, perl-doc)"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.perl 2020.1002 (perl os pkg, perl-doc, libbio-samtools-perl)"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Dockerfile.perl Grand Finale "
 
 # ENV TZ America/Los_Angeles  
