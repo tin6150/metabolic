@@ -61,10 +61,10 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     /opt/conda/bin/conda config --add channels conda-forge          ;\
     # --quiet just skip the progress bar.  -vvv for trace 
     /opt/conda/bin/conda install -y --quiet bwa coverm sambamba     ;\
-    /opt/conda/bin/conda install -y --quiet conda-forge/label/cf202003 gdown ;\
+    /opt/conda/bin/conda install -y --quiet gdown                   ;\
     #/opt/conda/bin/conda install -y --quiet -v -c bioconda gtdbtk   ;\
     # conda version above somehow result in version conflict, but pip install works (cuz get 1.0.1 ?)
-		/opt/conda/bin/pip install  gtdbtk                              ;\
+		/opt/conda/bin/pip install --quiet --no-input gtdbtk            ;\
     echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)' 
 
 
