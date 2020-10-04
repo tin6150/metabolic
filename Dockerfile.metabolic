@@ -25,6 +25,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
 		echo "df -h at beginning of Docker.metabolic" | tee -a _TOP_DIR_OF_CONTAINER_ ;\
 		df -h | tee -a   _TOP_DIR_OF_CONTAINER_               ;\
 		apt-get -y --quiet install git                        ;\
+		apt-get -y --quiet clean                              ;\
     test -d /opt/gitrepo  || mkdir -p /opt/gitrepo        ;\
     cd      /opt/gitrepo ;\
     test -d /opt/gitrepo/metabolic  || git clone https://github.com/tin6150/metabolic.git  ;\
@@ -60,6 +61,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     /opt/conda/bin/conda config --add channels conda-forge          ;\
     # --quiet just skip the progress bar.  -vvv for trace 
     /opt/conda/bin/conda install -y --quiet bwa coverm sambamba     ;\
+    /opt/conda/bin/conda install -y --quiet conda-forge/label/cf202003 gdown ;\
     #/opt/conda/bin/conda install -y --quiet -v -c bioconda gtdbtk   ;\
     # conda version above somehow result in version conflict, but pip install works (cuz get 1.0.1 ?)
 		/opt/conda/bin/pip install  gtdbtk                              ;\
@@ -76,6 +78,7 @@ RUN echo '========================================================'   ;\
 
 
     #mkdir /opt/metabolic && cd /opt/metabolic ;\
+		apt-get -y --quiet clean                   ;\
     cd /opt ;\
     git clone --quiet https://github.com/AnantharamanLab/METABOLIC.git ;\
     cd METABOLIC ;\
@@ -86,7 +89,7 @@ RUN echo '========================================================'   ;\
 		df -h | tee -a   /_TOP_DIR_OF_CONTAINER_ ;\
     bash -x ./run_to_setup.sh | tee run_to_setup.LOG ;\
 		echo $? | tee run_to_setup.exit.code             ;\
-		echo "df -h before Metabolic run_to_setup.sh" | tee -a   /_TOP_DIR_OF_CONTAINER_ ;\
+		echo "df -h after  Metabolic run_to_setup.sh" | tee -a   /_TOP_DIR_OF_CONTAINER_ ;\
 		df -h | tee -a   /_TOP_DIR_OF_CONTAINER_ ;\
     chmod a+x *pl ;\
     chmod a+x /opt/METABOLIC/METABOLIC-G.pl ;\
@@ -103,7 +106,7 @@ RUN     cd / \
   && echo  "Build Info: Dockerfile.metabolic 2020.0109.1830"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Build Info: Dockerfile.metabolic 2020.0406.1133"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Build Info: Dockerfile.metabolic 2020.0406.1205 (hostname/date)"  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Build Info: Dockerfile.metabolic 2020.0928.1625 (metabolic 4.0, R 4.0.2, perl-doc)" >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Build Info: Dockerfile.metabolic 2020.1003.2200 (metabolic 4.0, R 4.0.2, perl-doc, gdown)" >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 #ENV TZ America/Los_Angeles 

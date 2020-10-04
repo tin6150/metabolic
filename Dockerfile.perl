@@ -25,6 +25,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     cd      /opt/gitrepo  ;\
     test -d /opt/gitrepo/metabolic  || git clone https://github.com/tin6150/metabolic.git  ;\
     cd      /opt/gitrepo/metabolic &&  git pull && cd -   ;\
+    apt-get -y --quiet clean                              ;\
     cd      /  ;\
 
     echo '==================================================================' ;\
@@ -74,7 +75,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Dockerfile.perl 2020.1002 (perl os pkg, perl-doc, libbio-samtools-perl)"  >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.perl 2020.1003 (perl os pkg, perl-doc, libbio-samtools-perl, clean)"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Dockerfile.perl Grand Finale "
 
 # ENV TZ America/Los_Angeles  
