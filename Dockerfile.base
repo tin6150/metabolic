@@ -20,7 +20,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     hostname | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     date     | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     # really weired.  git will just not get installed here 
-    apt-get -y --quiet install git wget gzip  ;\
+    apt-get -y --quiet install git wget curl gzip  ;\
     #echo "apt-utils need apt-utils to install via apt.  It is not needed, maybe not even desirable, just learn to ignore the warning." | tee -a _TOP_DIR_OF_CONTAINER_ ;\
     #apt-get -y --force-yes --quiet install apt-utils      ;\
     echo "installing packages via apt"       | tee -a _TOP_DIR_OF_CONTAINER_               ;\
@@ -82,6 +82,7 @@ RUN     cd / \
   && echo  "Dockerfile.base 2020.1002      (R 3.6.3, samtools)"    >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Dockerfile.base 2020.1003      (apt-get clean    )"    >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Dockerfile.base 2020.1007 (libpython2-stdlib prodigal)" >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.base 2020.1007.1650 (curl)"                  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Dockerfile.base Grand Finale"
 
 # ENV TZ America/Los_Angeles 
