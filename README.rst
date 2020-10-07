@@ -155,6 +155,7 @@ container size
 - docker image ls for perl4metabolic is 1.83 GB.
 - 12 GB  is used by /opt/METABOLIC/kofam_database/
 - docker image ls for metabolic 4.0 is 24.5 GB and cloud build at hub.docker.com fails
+  (Size before run_to_setup.sh is 5.3 GB)
 
 above do not include the gtdbtk DB
 

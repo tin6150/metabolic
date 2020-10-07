@@ -81,10 +81,11 @@ RUN echo '========================================================'   ;\
     apt-get -y --quiet clean                   ;\
     cd /opt ;\
     #~~git clone --quiet https://github.com/AnantharamanLab/METABOLIC.git ;\
+    #~~cd METABOLIC ;\
     #~~git checkout 5acb686         ;\ 
     # their v4.0 -- Jun 22, 2020 --   but using log 5acb686 as that's closest to date got request from Zhicao Zhou and seems to have good updated doc and maybe DB
     git clone --quiet https://github.com/tin6150/METABOLIC-1.git ;\
-    cd METABOLIC ;\
+    cd METABOLIC-1 ;\
     git checkout 4.0-container   ;\ 
     git log > metabolics.git.log ;\
     echo "df -h before Metabolic run_to_setup.sh" | tee -a   /_TOP_DIR_OF_CONTAINER_ ;\
@@ -111,7 +112,7 @@ RUN     cd / \
   && echo  "Build Info: Dockerfile.metabolic 2020.0406.1133"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Build Info: Dockerfile.metabolic 2020.0406.1205 (hostname/date)"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Build Info: Dockerfile.metabolic 2020.1003.2200 (metabolic 4.0, R 4.0.2, perl-doc, gdown)" >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Build Info: Dockerfile.metabolic 2020.1007      (METABOLIC from tin6150 fork)"             >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Build Info: Dockerfile.metabolic 2020.1007.1620 (METABOLIC from tin6150 fork)"             >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 #ENV TZ America/Los_Angeles 
