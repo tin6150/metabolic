@@ -25,7 +25,9 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     #apt-get -y --force-yes --quiet install apt-utils      ;\
     echo "installing packages via apt"       | tee -a _TOP_DIR_OF_CONTAINER_               ;\
     apt-get update ;\
-    apt-get -y --force-yes --quiet install r-base hmmer prodigal bamtools python file bash tcsh zsh less vim bc tmux screen xterm xpdf ;\
+    apt-get -y --force-yes --quiet install r-base hmmer prodigal bamtools file bash tcsh zsh fish less vim bc tmux screen xterm xpdf ;\
+    apt-get -y --force-yes --quiet install libpython2-stdlib python2 ;\
+    ##xx apt-get -y --force-yes --quiet install python  python-minimal libpython-stdlib ;\
     apt-get -y --force-yes --quiet install libxml2 libtinfo5 libtinfo6 diamond-aligner     ;\
     apt-get -y --force-yes --quiet install environment-modules ;\
     apt-get -y --force-yes --quiet install libcurl4-openssl-dev libxml2-dev libssl-dev httrack libhttrack-dev libhttrack2 harvest-tools  ;\
@@ -79,6 +81,7 @@ RUN     cd / \
   && echo  "Dockerfile.base 2020.0109.1830 (skip apt-utils)"       >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Dockerfile.base 2020.1002      (R 3.6.3, samtools)"    >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Dockerfile.base 2020.1003      (apt-get clean    )"    >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Dockerfile.base 2020.1007 (libpython2-stdlib prodigal)" >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Dockerfile.base Grand Finale"
 
 # ENV TZ America/Los_Angeles 

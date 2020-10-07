@@ -99,6 +99,8 @@ RUN echo '========================================================'   ;\
     mkdir slowdata ;\
     echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)' 
 
+    ## cloud build will likely fail cuz 4.0 with the new DB image has balooned to 23+ GB.
+    ## tin6150/metabolic        4.0                 a8773237e0d6        21 hours ago        23.2GB
 
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \

@@ -120,6 +120,7 @@ Build Commands
 		docker build -t tin6150/base4metabolic  -f Dockerfile.base       .  | tee Dockerfile.base.log 
 		docker build -t tin6150/perl4metabolic  -f Dockerfile.perl       .  | tee Dockerfile.perl.log 
 		docker build -t tin6150/metabolic       -f Dockerfile.metabolic  .  | tee Dockerfile.log 
+		docker build -t tin6150/metabolic:4.0   -f Dockerfile.metabolic  .  | tee Dockerfile.log 
 
 		Optional conversion to Singularity to run in HPC environment:
 		sudo /opt/singularity-2.6/bin/singularity build --writable metabolic_b1219a.img Singularity 2>&1  | tee singularity_build.log
@@ -150,12 +151,12 @@ container size
 
 - singularity.sif is  6 GB # Download by Singularity Hub Singularity 3.2 
 - singularity.img is 21 GB # 2.6 build on bofh
-- docker image ls for metabolic is 16.9 GB (seems to have grown a lot since gtdbtk, but did not include DB).
+- docker image ls for metabolic 3.0 is 16.9 GB (seems to have grown a lot since gtdbtk, but did not include DB).
 - docker image ls for perl4metabolic is 1.83 GB.
 - 12 GB  is used by /opt/METABOLIC/kofam_database/
+- docker image ls for metabolic 4.0 is 24.5 GB and cloud build at hub.docker.com fails
 
 above do not include the gtdbtk DB
-
 
 
 DB for gtdbtk 
