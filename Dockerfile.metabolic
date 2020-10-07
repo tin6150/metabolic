@@ -22,10 +22,10 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "Begin Dockerfile.metabolic build process at (hostname/date): " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     hostname | tee -a _TOP_DIR_OF_CONTAINER_ ;\
     date     | tee -a _TOP_DIR_OF_CONTAINER_ ;\
-		echo "df -h at beginning of Docker.metabolic" | tee -a _TOP_DIR_OF_CONTAINER_ ;\
-		df -h | tee -a   _TOP_DIR_OF_CONTAINER_               ;\
-		apt-get -y --quiet install git                        ;\
-		apt-get -y --quiet clean                              ;\
+    echo "df -h at beginning of Docker.metabolic" | tee -a _TOP_DIR_OF_CONTAINER_ ;\
+    df -h | tee -a   _TOP_DIR_OF_CONTAINER_               ;\
+    apt-get -y --quiet install git                        ;\
+    apt-get -y --quiet clean                              ;\
     test -d /opt/gitrepo  || mkdir -p /opt/gitrepo        ;\
     cd      /opt/gitrepo ;\
     test -d /opt/gitrepo/metabolic  || git clone https://github.com/tin6150/metabolic.git  ;\
@@ -64,7 +64,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     /opt/conda/bin/conda install -y --quiet gdown                   ;\
     #/opt/conda/bin/conda install -y --quiet -v -c bioconda gtdbtk   ;\
     # conda version above somehow result in version conflict, but pip install works (cuz get 1.0.1 ?)
-		/opt/conda/bin/pip install --quiet --no-input gtdbtk            ;\
+    /opt/conda/bin/pip install --quiet --no-input gtdbtk            ;\
     echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)' 
 
 
@@ -78,19 +78,21 @@ RUN echo '========================================================'   ;\
 
 
     #mkdir /opt/metabolic && cd /opt/metabolic ;\
-		apt-get -y --quiet clean                   ;\
+    apt-get -y --quiet clean                   ;\
     cd /opt ;\
-    git clone --quiet https://github.com/AnantharamanLab/METABOLIC.git ;\
+    #~~git clone --quiet https://github.com/AnantharamanLab/METABOLIC.git ;\
+    #~~git checkout 5acb686         ;\ 
+    # their v4.0 -- Jun 22, 2020 --   but using log 5acb686 as that's closest to date got request from Zhicao Zhou and seems to have good updated doc and maybe DB
+    git clone --quiet https://github.com/tin6150/METABOLIC-1.git ;\
     cd METABOLIC ;\
-# their v4.0 -- Jun 22, 2020 --   but using log 5acb686 as that's closest to date got request from Zhicao Zhou and seems to have good updated doc and maybe DB
-		git checkout 5acb686         ;\ 
+    git checkout 4.0-container   ;\ 
     git log > metabolics.git.log ;\
-		echo "df -h before Metabolic run_to_setup.sh" | tee -a   /_TOP_DIR_OF_CONTAINER_ ;\
-		df -h | tee -a   /_TOP_DIR_OF_CONTAINER_ ;\
+    echo "df -h before Metabolic run_to_setup.sh" | tee -a   /_TOP_DIR_OF_CONTAINER_ ;\
+    df -h | tee -a   /_TOP_DIR_OF_CONTAINER_ ;\
     bash -x ./run_to_setup.sh | tee run_to_setup.LOG ;\
-		echo $? | tee run_to_setup.exit.code             ;\
-		echo "df -h after  Metabolic run_to_setup.sh" | tee -a   /_TOP_DIR_OF_CONTAINER_ ;\
-		df -h | tee -a   /_TOP_DIR_OF_CONTAINER_ ;\
+    echo $? | tee run_to_setup.exit.code             ;\
+    echo "df -h after  Metabolic run_to_setup.sh" | tee -a   /_TOP_DIR_OF_CONTAINER_ ;\
+    df -h | tee -a   /_TOP_DIR_OF_CONTAINER_ ;\
     chmod a+x *pl ;\
     chmod a+x /opt/METABOLIC/METABOLIC-G.pl ;\
     chmod a+x /opt/METABOLIC/METABOLIC-C.pl ;\
@@ -109,6 +111,7 @@ RUN     cd / \
   && echo  "Build Info: Dockerfile.metabolic 2020.0406.1133"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Build Info: Dockerfile.metabolic 2020.0406.1205 (hostname/date)"  >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Build Info: Dockerfile.metabolic 2020.1003.2200 (metabolic 4.0, R 4.0.2, perl-doc, gdown)" >> _TOP_DIR_OF_CONTAINER_   \
+  && echo  "Build Info: Dockerfile.metabolic 2020.1007      (METABOLIC from tin6150 fork)"             >> _TOP_DIR_OF_CONTAINER_   \
   && echo  "Grand Finale"
 
 #ENV TZ America/Los_Angeles 
