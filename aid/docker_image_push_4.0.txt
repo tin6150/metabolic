@@ -1,0 +1,65 @@
+push to docker worked.
+pull from hima worked (sudo podman).
+push to ghcr failed, both from bofh root and hima sudo podman.
+so ghcr not buying me anything, and docker.io is still working out better, albeit cloud build fails.
+
+~~~~~
+
+
+# not all the layers are visible from `docker image ls`
+
+root@bofh:/opt/METABOLIC# docker login --username tin6150
+Password:
+WARNING! Your password will be stored unencrypted in /root/.docker/config.json.
+Configure a credential helper to remove this warning. See
+https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
+Login Succeeded
+
+root@bofh:/opt/METABOLIC# docker image push tin6150/metabolic:4.0
+The push refers to repository [docker.io/tin6150/metabolic]
+c5e644c6a992: Pushed
+1ae1ee0831f6: Pushing [============================>                      ]  11.09GB/19.67GB
+0579f7dc5a32: Pushed
+e4da8dc0345e: Pushed
+45b0242af97d: Pushed
+8f5d5776ead1: Mounted from tin6150/base4metabolic
+1bbe196ee7e2: Pushed
+d12b55bd8174: Layer already exists
+4998d9e0f36f: Layer already exists
+7061fec5d051: Layer already exists
+d09462c63edc: Layer already exists
+799b31e7ba39: Layer already exists
+efeb054568d1: Layer already exists
+
+
+
+~~~~
+
+docker pull from exalearn failed, not sure what flacked out in there:
+
+5639ae2bf619: Extracting [==================================================>] 7.251 GB/7.251 GB
+5f12a7c0d0f8: Download complete
+failed to register layer: Error processing tar file(exit status 1): open /opt/METABOLIC/kofam_database/profiles/K14170.hmm.h3i: no spa
+ce left on device
+
+
+
+sudo podman pull from hima, worked when used sudo:
+Trying to pull docker.io/tin6150/metabolic:4.0...
+Getting image source signatures
+Copying blob d7670dfe48ab done
+Copying blob 2cdedc0b6b14 done
+Copying blob 052b8b887e97 done
+Copying blob 8a3db8e97722 done
+Copying blob fa432a30f21d done
+Copying blob 4363cc522034 done
+Copying blob a493f63938e5 done
+Copying blob 43456d0bec62 done
+Copying blob 07e0f0568992 done
+Copying blob 71decae0829d done
+Copying blob eed5bf5b018a done
+Copying blob 5639ae2bf619 [======>-------------------------------] 1.2GiB / 6.8GiB
+Copying blob 5f12a7c0d0f8 done
+
+

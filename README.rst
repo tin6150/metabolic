@@ -61,8 +61,10 @@ Interactive run (note that content in container are ephemeral.  saving kinda wor
 
 Non interactive, scriptable run::
 
-	docker run  -v "$PWD":/tmp/home --entrypoint "perl /opt/METABOLIC/METABOLIC-G.pl -t 34 -in-gn /tmp/home/5_genomes_test/Genome_files -o /tmp/home/metabolic_out" tin6150/metabolic:4.0
-
+ 
+	docker pull tin6150/metabolic:4.0 
+	docker run  -v "$(pwd)":/tmp/home --entrypoint "perl" tin6150/metabolic:4.0 /opt/METABOLIC/METABOLIC-G.pl -t 34 -in-gn /tmp/home/5_genomes_test/Genome_files -o /tmp/home/metabolic_out 
+	# Output will be in ./metabolic_out
 
 Starting the Metabolic v3.0 container via Docker
 ================================================
@@ -121,6 +123,8 @@ Build Commands
 		docker build -t tin6150/perl4metabolic  -f Dockerfile.perl       .  | tee Dockerfile.perl.log 
 		docker build -t tin6150/metabolic       -f Dockerfile.metabolic  .  | tee Dockerfile.log 
 		docker build -t tin6150/metabolic:4.0   -f Dockerfile.metabolic  .  | tee Dockerfile.log 
+		docker login --username tin6150
+		docker image push tin6150/metabolic:4.0  
 
 		Optional conversion to Singularity to run in HPC environment:
 		sudo /opt/singularity-2.6/bin/singularity build --writable metabolic_b1219a.img Singularity 2>&1  | tee singularity_build.log
@@ -154,8 +158,9 @@ container size
 - docker image ls for metabolic 3.0 is 16.9 GB (seems to have grown a lot since gtdbtk, but did not include DB).
 - docker image ls for perl4metabolic is 1.83 GB.
 - 12 GB  is used by /opt/METABOLIC/kofam_database/
-- docker image ls for metabolic 4.0 is 24.5 GB and cloud build at hub.docker.com fails
+- docker image ls for metabolic 4.0 is 25.1 GB and cloud build at hub.docker.com fails
   (Size before run_to_setup.sh is 5.3 GB)
+  largest layer: 1ae1ee0831f6: Pushing [===>  ]  1.517GB/19.67GB
 
 above do not include the gtdbtk DB
 
@@ -165,11 +170,13 @@ DB for gtdbtk
 
 gtdbtk maybe optional.  when running it, may need a DB.  setup as:: 
 
-	GTDBTK_DATA_PATH = /tmp/GTDBTK_DATA
+	GTDBTK_DATA_PATH=/tmp/GTDBTK_DATA
 	cd $GTDBTK_DATA_PATH
 	wget https://data.ace.uq.edu.au/public/gtdb/data/releases/release89/89.0/gtdbtk_r89_data.tar.gz
 	tar xzf gtdbtk_r89_data.tar.gz
-	See https://github.com/Ecogenomics/GTDBTk for links to newer db
+	# See https://github.com/Ecogenomics/GTDBTk for links to newer db
+
+	docker run  -v /tmp:/tmp --entrypoint "perl" tin6150/metabolic:4.0 /opt/METABOLIC/METABOLIC-G.pl -t 34 -in-gn /tmp//5_genomes_test/Genome_files -o /tmp/metabolic_out 
 
 
 

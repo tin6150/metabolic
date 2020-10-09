@@ -6,6 +6,7 @@
 
 FROM tin6150/perl4metabolic
 MAINTAINER Tin (at) LBL.gov
+LABEL org.opencontainers.image.source https://github.com/tin6150/metabolic
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG PERL_MM_USE_DEFAULT=1
