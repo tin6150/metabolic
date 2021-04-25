@@ -11,8 +11,6 @@ LABEL org.opencontainers.image.source https://github.com/tin6150/metabolic
 ARG DEBIAN_FRONTEND=noninteractive
 ARG PERL_MM_USE_DEFAULT=1
 ARG TZ=PST8PDT 
-#ENV TZ=America/Chicago # tail -1 /usr/share/zoneinfo/America/Chicago = CST6CDT,M3.2.0,M11.1.0
-#ARG PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda/bin
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/conda/bin
 ENV GTDBTK_DATA_PATH=/tmp/GTDBTK_DATA 
 # either overwrite GTDBTK_DATA_PATH env with right path or place a sym link on the host
@@ -43,14 +41,6 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo 'export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/conda/lib"' >> /etc/bashrc    ;\
     cd .. ;\
 
-    ##There is bioconda sambamba so this isn't really needed
-    ##mkdir -p /opt/sambamba &&  cd /opt/sambamba ;\
-    ##wget --quiet https://github.com/biod/sambamba/releases/download/v0.7.1/sambamba-0.7.1-linux-static.gz ;\
-    ##gunzip sambamba-0.7.1-linux-static.gz  ;\
-    ##echo 'export PATH="${PATH}:/opt/sambamba/bin"'                       >> /etc/bashrc    ;\
-    ##echo 'export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:/opt/sambamba/lib"' >> /etc/bashrc    ;\
-    ##cd ../.. ;\
-
     echo '==================================================================' ;\
     echo '==================================================================' ;\
     echo "installing packages via conda"  | tee -a _TOP_DIR_OF_CONTAINER_     ;\
@@ -63,13 +53,11 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     # --quiet just skip the progress bar.  -vvv for trace 
     /opt/conda/bin/conda install -y --quiet bwa coverm sambamba     ;\
     /opt/conda/bin/conda install -y --quiet gdown                   ;\
-    #/opt/conda/bin/conda install -y --quiet -v -c bioconda gtdbtk   ;\
-    # conda version above somehow result in version conflict, but pip install works (cuz get 1.0.1 ?)
     /opt/conda/bin/pip install --quiet --no-input gtdbtk            ;\
     echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)' 
 
 
-# trying to split into multiple RUN to see if get around docker hub out of space problem
+# split into multiple RUN may get around docker hub out of space problem (next build may use previous cache thus faster)
 RUN echo '========================================================'   ;\
     echo '========================================================'   ;\
     echo "compiling metabolic" | tee -a _TOP_DIR_OF_CONTAINER_        ;\
@@ -78,7 +66,6 @@ RUN echo '========================================================'   ;\
     echo '========================================================'   ;\
 
 
-    #mkdir /opt/metabolic && cd /opt/metabolic ;\
     apt-get -y --quiet clean                   ;\
     cd /opt ;\
     #~~git clone --quiet https://github.com/AnantharamanLab/METABOLIC.git ;\
@@ -105,25 +92,13 @@ RUN echo '========================================================'   ;\
     echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)' 
 
     ## cloud build will likely fail cuz 4.0 with the new DB image has balooned to 23+ GB.
-    ## tin6150/metabolic        4.0                 a8773237e0d6        21 hours ago        23.2GB
 
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Build Info: Dockerfile.metabolic 2020.0109.1830"  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Build Info: Dockerfile.metabolic 2020.0406.1133"  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Build Info: Dockerfile.metabolic 2020.0406.1205 (hostname/date)"  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Build Info: Dockerfile.metabolic 2020.1003.2200 (metabolic 4.0, R 4.0.2, perl-doc, gdown)" >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Build Info: Dockerfile.metabolic 2020.1007.1620 (METABOLIC from tin6150 fork)"             >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Build Info: Dockerfile.metabolic 2020.1007.1650 (curl)"                                    >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Grand Finale"
+  && echo  "Build Info: Dockerfile.metabolic 2021.0424" >> _TOP_DIR_OF_CONTAINER_   
 
-#ENV TZ America/Los_Angeles 
-#ENV TZ likely changed/overwritten by container's /etc/csh.cshrc
 ENV DOCKERFILE Dockerfile.metabolic # DOES overwrite parent def of ENV DOCKERFILE
 ENV TEST_DOCKER_ENV_REF https://vsupalov.com/docker-arg-env-variable-guide/#setting-env-values
-# but how to append, eg add to PATH?
 
 ENTRYPOINT [ "/bin/bash" ]
-#ENTRYPOINT [ "TZ=PST8PDT /bin/bash" ]
-# if no defined ENTRYPOINT, default to bash inside the container

@@ -1,14 +1,9 @@
-# Main Dockerfile for creating Metabolic in a container
+# Base Dockerfile for creating OS with R to eventually host Metabolic in a container
 #
 # Metabolic source: https://github.com/AnantharamanLab/METABOLIC
 # Dockerfile github: https://github.com/tin6150/metabolic/blob/master/Dockerfile.base
-# Probably no update needed from branch 2.0 to 3.0 (for metabolic 3.0, circa April 2020)
 
 
-#FROM cgrlab/sambamba
-#FROM conda/miniconda3  # Debian, not ubuntu, can't find R!
-#FROM ubuntu:19.04
-##FROM r-base:3.6.2
 FROM r-base:4.0.2
 MAINTAINER Tin (at) LBL.gov
 
@@ -21,13 +16,10 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     date     | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     # really weired.  git will just not get installed here 
     apt-get -y --quiet install git wget curl gzip  ;\
-    #echo "apt-utils need apt-utils to install via apt.  It is not needed, maybe not even desirable, just learn to ignore the warning." | tee -a _TOP_DIR_OF_CONTAINER_ ;\
-    #apt-get -y --force-yes --quiet install apt-utils      ;\
     echo "installing packages via apt"       | tee -a _TOP_DIR_OF_CONTAINER_               ;\
     apt-get update ;\
     apt-get -y --force-yes --quiet install r-base hmmer prodigal bamtools file bash tcsh zsh fish less vim bc tmux screen xterm xpdf ;\
     apt-get -y --force-yes --quiet install libpython2-stdlib python2 ;\
-    ##xx apt-get -y --force-yes --quiet install python  python-minimal libpython-stdlib ;\
     apt-get -y --force-yes --quiet install libxml2 libtinfo5 libtinfo6 diamond-aligner     ;\
     apt-get -y --force-yes --quiet install environment-modules ;\
     apt-get -y --force-yes --quiet install libcurl4-openssl-dev libxml2-dev libssl-dev httrack libhttrack-dev libhttrack2 harvest-tools  ;\
@@ -42,8 +34,6 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     cd /usr/bin && ln -s diamond-aligner diamond && cd - ;\
     cd / ;\
     dpkg --list > dpkg--list.output ;\
-    # libtinfo5,6 added to see if rid of:
-    # /usr/lib/R/bin/exec/R: /opt/conda/lib/libtinfo.so.6: no version information available (required by /lib/x86_64-linux-gnu/libreadline.so.8)
 
     echo '==================================================================' ;\
     echo "installing packages cran packages" | tee -a _TOP_DIR_OF_CONTAINER_  ;\
@@ -62,7 +52,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     Rscript --quiet -e 'install.packages("ggraph",     repos = "http://cran.us.r-project.org")'    ;\
     echo $? > Rscript.exit.code   ;\
     Rscript --quiet -e 'library()' > R_library_list.out.txt    ;\
-    # 4.0 addition
+    # 4.0 (5acb686) addition
     Rscript --quiet -e 'install.packages("pdftools",   repos = "http://cran.us.r-project.org")'    ;\
     Rscript --quiet -e 'install.packages("igraph",     repos = "http://cran.us.r-project.org")'    ;\
     Rscript --quiet -e 'install.packages("tidygraph",  repos = "http://cran.us.r-project.org")'    ;\
@@ -76,25 +66,15 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
 
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
-  && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Dockerfile.base 2020.0107.1248 (.deb for tidyverse )"  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Dockerfile.base 2020.0109.1830 (skip apt-utils)"       >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Dockerfile.base 2020.1002      (R 3.6.3, samtools)"    >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Dockerfile.base 2020.1003      (apt-get clean    )"    >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Dockerfile.base 2020.1007 (libpython2-stdlib prodigal)" >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Dockerfile.base 2020.1007.1650 (curl)"                  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Dockerfile.base Grand Finale"
+  && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_                                 \
+  && echo  "Dockerfile.base completed 2021.0425"   >> _TOP_DIR_OF_CONTAINER_     
 
-# ENV TZ America/Los_Angeles 
-# best to leave user choose Time Zone
 ENV DOCKERFILE Dockerfile.base 
 ENV TEST_DOCKER_ENV     this_env_will_be_avail_when_container_is_run_or_exec
 ENV TEST_DOCKER_ENV_REF https://vsupalov.com/docker-arg-env-variable-guide/#setting-env-values
 ENV DOCKER_MANTABOLIC_BASE  "Dockerfile.base mostly R/CRAN"
-# but how to append, eg add to PATH?
 
 ENTRYPOINT [ "/bin/bash" ]
-#ENTRYPOINT [ "TZ=PST8PDT /bin/bash" ]
 # if no defined ENTRYPOINT, default to bash inside the container
 # can also run with exec bash to get shell:
 # docker exec -it tin6150/os4metabolic -v $HOME:/home/tin  bash 

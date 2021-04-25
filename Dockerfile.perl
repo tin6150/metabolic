@@ -4,12 +4,9 @@
 # Dockerfile github: https://github.com/tin6150/metabolic/blob/master/Dockerfile.perl
 
 
-
-#FROM r-base:3.6.2
 FROM tin6150/base4metabolic
 MAINTAINER Tin (at) LBL.gov
 
-#ARG TZ="America/Denver"
 ARG TZ="America/Los_Angeles"
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -18,9 +15,9 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     echo "Begin Dockerfile.perl build process at " | tee -a _TOP_DIR_OF_CONTAINER_  ;\
     hostname | tee -a       _TOP_DIR_OF_CONTAINER_        ;\
     date     | tee -a       _TOP_DIR_OF_CONTAINER_        ;\
-		apt-get -y --quiet update                             ;\
-		apt-get -y --force-yes --quiet install perl-base perl-doc perl-doc-html libterm-shellui-perl cpanoutdated hmmer libbio-samtools-perl ;\
-		apt-get -y --quiet install git                        ;\
+    apt-get -y --quiet update                             ;\
+    apt-get -y --force-yes --quiet install perl-base perl-doc perl-doc-html libterm-shellui-perl cpanoutdated hmmer libbio-samtools-perl ;\
+    apt-get -y --quiet install git                        ;\
     test -d /opt/gitrepo  || mkdir -p /opt/gitrepo        ;\
     cd      /opt/gitrepo  ;\
     test -d /opt/gitrepo/metabolic  || git clone https://github.com/tin6150/metabolic.git  ;\
@@ -46,7 +43,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     PERL_MM_USE_DEFAULT=1 cpan -fi Array/Split.pm ;\
     PERL_MM_USE_DEFAULT=1 cpan -fi Data/OptList.pm  ;\  
     PERL_MM_USE_DEFAULT=1 cpan -fi Parallel/ForkManager.pm  ;\  
-    # 4.0 addition:
+    # 4.0 (5acb686) addition:
     PERL_MM_USE_DEFAULT=1 cpan -fi POSIX                               ;\
 
     echo '==================================================================' ;\
@@ -63,11 +60,7 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
     PERL_MM_USE_DEFAULT=1 cpan -fi Carp ;\
     PERL_MM_USE_DEFAULT=1 cpan -fi Text::Levenshtein::XS Text::Levenshtein::Damerau::XS Text::Levenshtein Text::Levenshtein::Damerau::PP ;\
     echo $? > cpan.exit.code ;\
-    #PERL_MM_USE_DEFAULT=1 cpan -i perldoc ;\
-    #perldoc -t perllocal    ;\
     cpan -a > cpan.list.out ;\
-    # last count = 1565, but no match for Bio
-    # with -f count = 1900+, many match Bio
 
     echo 'Ending.  Last line of RUN block in Dockerbuild without continuation :)'
 
@@ -75,16 +68,12 @@ RUN touch    _TOP_DIR_OF_CONTAINER_  ;\
 RUN     cd / \
   && touch _TOP_DIR_OF_CONTAINER_  \
   && TZ=PST8PDT date  >> _TOP_DIR_OF_CONTAINER_  \
-  && echo  "Dockerfile.perl 2020.1003 (perl os pkg, perl-doc, libbio-samtools-perl, clean)"  >> _TOP_DIR_OF_CONTAINER_   \
-  && echo  "Dockerfile.perl Grand Finale "
+  && echo  "Dockerfile.perl 2021.0424"  >> _TOP_DIR_OF_CONTAINER_   
 
-# ENV TZ America/Los_Angeles  
 # ENV TZ could be changed/overwritten by container's /etc/csh.cshrc
 ENV DOCKERFILE Dockerfile.perl # DOES overwrite parent def of ENV DOCKERFILE
 ENV TEST_DOCKER_ENV_2   Can_use_ADD_to_make_ENV_avail_in_build_process
 ENV TEST_DOCKER_ENV_REF https://vsupalov.com/docker-arg-env-variable-guide/#setting-env-values
 ENV DOCKER_MANTABOLIC_PERL "CPAN packages, including bioperl"
-# but how to append, eg add to PATH?
 
 ENTRYPOINT [ "/bin/bash" ]
-# if no defined ENTRYPOINT, default to bash inside the container
